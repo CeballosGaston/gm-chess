@@ -1,25 +1,29 @@
-export default function TestPage() {
-  return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-background p-4">
-      {/* Test de color de fondo (debe ser azul muy oscuro) */}
-      
-      <div className="bg-card p-8 rounded-2xl border border-white/10 shadow-2xl text-center">
-        {/* Test de color de card (debe ser un gris azulado oscuro) */}
-        
-        <h1 className="text-5xl font-extrabold text-white mb-4">
-          Tailwind <span className="text-primary">v4</span>
-        </h1>
-        {/* Test de color primario (debe ser el naranja/dorado) */}
-        
-        <p className="text-slate-400 mb-8 max-w-md">
-          Si ves el fondo casi negro, esta caja gris oscura y este texto naranja, 
-          entonces la configuración es <span className="font-bold text-white">correcta</span>.
-        </p>
+// app/page.tsx
+'use client'
+import { useGms } from '@/features/marketplace/hooks/useGms'
 
-        <button className="bg-primary hover:scale-105 transition-transform text-black font-bold py-3 px-8 rounded-full shadow-lg shadow-primary/20">
-          ¡Funciona perfectamente!
-        </button>
+export default function HomePage() {
+  const { data: gms, isLoading, error } = useGms()
+
+  if (isLoading) return <div className="p-10 text-white">Cargando maestros...</div>
+  if (error) return <div className="p-10 text-red-500">Error: {(error as Error).message}</div>
+
+  return (
+    <main className="p-10 bg-[#060B18] min-h-screen">
+      <h1 className="text-3xl font-bold text-white mb-6">Master Marketplace</h1>
+      
+      {/* Esto es solo para debugear que los datos llegan */}
+      <pre className="text-xs text-green-400 bg-black p-4 rounded border border-green-900 overflow-auto max-h-96">
+        {JSON.stringify(gms, null, 2)}
+      </pre>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-10">
+        {gms?.map((gm) => (
+          <div key={gm.id} className="border border-slate-700 p-4 text-white rounded">
+            {gm.full_name} - ELO: {gm.elo}
+          </div>
+        ))}
       </div>
-    </div>
-  );
+    </main>
+  )
 }
