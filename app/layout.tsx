@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "../components/ui/Navbar";
-import Providers from '../providers'
+import Providers from "../providers";
 
 export const metadata: Metadata = {
   title: "GM Chess Marketplace",
@@ -16,9 +16,10 @@ export default function RootLayout({
   return (
     <html lang="es">
       <body className="antialiased">
-        <Navbar />
-      <Providers>
-          {children}
+        <Providers>
+          <Navbar />
+
+          <main>{children}</main>
         </Providers>
       </body>
     </html>

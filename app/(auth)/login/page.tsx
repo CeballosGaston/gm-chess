@@ -1,17 +1,29 @@
-'use client'
-import { supabase } from '@/lib/supabase'
-import { Mail } from 'lucide-react';
+"use client";
+
+import { createBrowserClient } from '@supabase/ssr'
+import { Mail } from "lucide-react";
+
+
 
 export default function LoginPage() {
+ 
+  const supabase = createBrowserClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  )
+
+
   const handleLogin = async () => {
-    await supabase.auth.signInWithOAuth({
-      provider: 'google',
+    console.log("Botón clickeado");
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
       options: {
-       
+        // No uses variables complejas aquí por ahora, ponlo directo para probar
         redirectTo: `${window.location.origin}/auth/callback`,
       },
-    })
-  }
+    });
+    if (error) console.error("Error en login:", error.message);
+  };
 
   return (
     <div className="min-h-[80vh] flex items-center justify-center bg-background px-4">
@@ -20,7 +32,8 @@ export default function LoginPage() {
           Bienvenido a <span className="text-primary uppercase">GM</span>
         </h1>
         <p className="text-slate-400 mb-8">
-          Inicia sesión para jugar contra los mejores Grandes Maestros del mundo.
+          Inicia sesión para jugar contra los mejores Grandes Maestros del
+          mundo.
         </p>
 
         <button
@@ -32,9 +45,10 @@ export default function LoginPage() {
         </button>
 
         <p className="mt-6 text-xs text-slate-500">
-          Al continuar, aceptas nuestros términos de servicio y política de privacidad.
+          Al continuar, aceptas nuestros términos de servicio y política de
+          privacidad.
         </p>
       </div>
     </div>
-  )
+  );
 }

@@ -1,8 +1,15 @@
 // components/Navbar.tsx
-import { Coins, User } from 'lucide-react';
-import Link from 'next/link';
+"use client";
+import { Coins, User } from "lucide-react";
+import Link from "next/link";
+import { useUser } from "@/features/auth/hooks/useUser";
+import Image from "next/image";
 
 export default function Navbar() {
+  const { data: user, isLoading } = useUser();
+  const avatarSrc =
+    user?.avatar_url ||
+    `https://api.dicebear.com/7.x/initials/svg?seed=${user?.name || "Guest"}`;
   return (
     <nav className="flex items-center justify-between px-8 py-4 bg-background border-b border-white/10 sticky top-0 z-50">
       {/* Logo */}
@@ -28,10 +35,30 @@ export default function Navbar() {
         </button>
 
         {/* User Profile Placeholder */}
-        <div className="flex items-center gap-3 pl-4 border-l border-white/10">
-          <span className="text-sm font-medium hidden sm:inline">Juan Pérez</span>
-          <div className="w-10 h-10 rounded-full bg-slate-800 border border-white/10 flex items-center justify-center">
-            <User className="w-5 h-5 text-slate-400" />
+        <div className="flex items-center gap-3 px-4 py-2 bg-slate-900/50 rounded-full border border-amber-900/20">
+          <div className="realtive w-8 h-8 rounded-full bg-amber-500/20 flex items-center justify-center border border-amber-500/40">
+            {user?.avatar_url ? (
+              <Image
+                src={avatarSrc}
+                alt={user?.name || "Avatar de usuario"}
+                fill
+                className="object-cover"
+                sizes="40px"
+                priority
+                unoptimized
+              />
+            ) : (
+              <User className="w-4 h-4 text-amber-500" />
+            )}
+          </div>
+
+          <div className="hidden sm:block text-right">
+            <p className="text-xs text-slate-500 leading-none mb-1">
+              Bienvenido
+            </p>
+            <p className="text-sm font-bold text-white leading-none">
+              {isLoading ? "Cargando..." : user?.name || "Invitado"}
+            </p>
           </div>
         </div>
       </div>
