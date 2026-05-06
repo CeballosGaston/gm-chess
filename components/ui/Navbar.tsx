@@ -6,10 +6,14 @@ import { useUser } from "@/features/auth/hooks/useUser";
 import Image from "next/image";
 
 export default function Navbar() {
-  const { data: user, isLoading } = useUser();
+  const { data: user, isLoading, isError,logout } = useUser();
+  if (isError) {
+    console.error("Error cargando el usuario");
+  }
   const avatarSrc =
     user?.avatar_url ||
     `https://api.dicebear.com/7.x/initials/svg?seed=${user?.name || "Guest"}`;
+
   return (
     <nav className="flex items-center justify-between px-8 py-4 bg-background border-b border-white/10 sticky top-0 z-50">
       {/* Logo */}
@@ -36,7 +40,7 @@ export default function Navbar() {
 
         {/* User Profile Placeholder */}
         <div className="flex items-center gap-3 px-4 py-2 bg-slate-900/50 rounded-full border border-amber-900/20">
-          <div className="realtive w-8 h-8 rounded-full bg-amber-500/20 flex items-center justify-center border border-amber-500/40">
+          <div className="relative w-9 h-9 rounded-full bg-slate-800 flex items-center justify-center border border-white/10 overflow-hidden">
             {user?.avatar_url ? (
               <Image
                 src={avatarSrc}
@@ -59,6 +63,14 @@ export default function Navbar() {
             <p className="text-sm font-bold text-white leading-none">
               {isLoading ? "Cargando..." : user?.name || "Invitado"}
             </p>
+            {user && (
+              <button 
+                onClick={logout}
+                className="text-[10px] text-slate-500 hover:text-red-400 transition-colors font-medium"
+              >
+                Cerrar sesión
+              </button>
+            )}
           </div>
         </div>
       </div>

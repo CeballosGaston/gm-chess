@@ -29,14 +29,19 @@ export const profileService = {
   },
 async getCurrentUser(): Promise<Profile | null> {
   const { data: { user }, error: authError } = await supabase.auth.getUser();
-
-  if (authError || !user) return null;
+console.log("1. Usuario Auth:", user);
+ if (authError || !user) {
+    console.log("Error de Auth o no hay usuario:", authError);
+    return null;
+  }
 
   const { data: profile, error } = await supabase
     .from("profiles")
     .select("*")
     .eq("id", user.id)
     .single();
+    console.log("2. Perfil en DB:", profile); // ¿Existe la fila en la tabla profiles?
+  console.log("3. Error de DB:", error);
 
   if (error || !profile) {
    

@@ -1,27 +1,15 @@
 "use client";
 
-import { createBrowserClient } from '@supabase/ssr'
 import { Mail } from "lucide-react";
+import { authService } from '@/features/auth/services/authService';
 
 
 
 export default function LoginPage() {
  
-  const supabase = createBrowserClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-  )
-
-
+ 
   const handleLogin = async () => {
-    console.log("Botón clickeado");
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: "google",
-      options: {
-        // No uses variables complejas aquí por ahora, ponlo directo para probar
-        redirectTo: `${window.location.origin}/auth/callback`,
-      },
-    });
+        const { error } = await authService.signIn();
     if (error) console.error("Error en login:", error.message);
   };
 
