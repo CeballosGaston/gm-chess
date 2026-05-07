@@ -13,7 +13,7 @@ export default function Navbar() {
   const avatarSrc =
     user?.avatar_url ||
     `https://api.dicebear.com/7.x/initials/svg?seed=${user?.name || "Guest"}`;
-
+console.log("URL del Avatar:", avatarSrc);
   return (
     <nav className="flex items-center justify-between px-8 py-4 bg-background border-b border-white/10 sticky top-0 z-50">
       {/* Logo */}

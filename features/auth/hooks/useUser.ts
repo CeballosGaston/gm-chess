@@ -5,9 +5,11 @@ import { useEffect } from "react";
 import { supabase } from "@/lib/supabase";
 import { profileService } from "../../marketplace/services/queries";
 import { authService } from "../services/authService";
+import { useRouter } from "next/navigation";
 
 export function useUser() {
   const queryClient = useQueryClient();
+  const router = useRouter();
 
   useEffect(() => {
     const {
@@ -28,8 +30,15 @@ export function useUser() {
   });
 
 const logout = async () => {
-    await authService.signOut();
-    queryClient.setQueryData(["currentUser"], null); 
+    try {
+      await authService.signOut();
+      queryClient.setQueryData(["currentUser"], null);
+      
+      
+      router.push("/login"); 
+    } catch (error) {
+      console.error("Error al salir:", error);
+    }
   };
 
   return {

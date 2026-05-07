@@ -49,13 +49,15 @@ export default async function GMDetailPage({
       <div className="grid lg:grid-cols-3 gap-8">
         <div className="lg:col-span-1 space-y-6">
           <div className="bg-gradient-to-br from-slate-900/80 to-slate-950/80 backdrop-blur border border-amber-900/20 rounded-2xl p-6 space-y-6">
-            <div className="relative">
+            <div className="relative aspect-square w-full rounded-xl overflow-hidden ring-4 ring-amber-500/30 bg-slate-800">
               <Image
-                width={96}
-                height={96}
                 src={gm.avatar_url || "/placeholder-user.png"}
-                alt={gm.name || ""}
-                className="w-full aspect-square rounded-xl object-cover ring-4 ring-amber-500/30"
+                sizes="(max-width: 768px) 100vw, 33vw"
+                fill
+                alt={gm.name || "Avatar"}
+                priority
+                className="object-cover"
+                unoptimized
               />
               {gm.is_available && (
                 <div className="absolute top-4 right-4 px-3 py-1 bg-green-500 text-white text-sm font-bold rounded-full flex items-center gap-2">
