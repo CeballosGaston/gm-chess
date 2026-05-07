@@ -10,7 +10,6 @@ import { useChessGame } from "@/features/game/hooks/useChessGame";
 
 import {
   ArrowLeft,
-  Languages,
   RotateCcw,
   ShieldCheck,
 } from "lucide-react";
