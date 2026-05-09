@@ -5,6 +5,8 @@ import { Profile } from "../../../types/index";
 import Image from "next/image";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { supabase } from "@/lib/supabase";
+import { Chess } from "chess.js";
 
 interface MasterCardProps {
   gm: Profile;
@@ -21,6 +23,40 @@ const goTo = (e: React.MouseEvent, path: string) => {
     e.stopPropagation();
     router.push(path);
   };
+
+
+const startGame = async (e: React.MouseEvent) => {
+  e.preventDefault();
+  e.stopPropagation();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) return;
+
+  // crear partida REAL
+  const { data, error } = await supabase
+    .from("games")
+    .insert({
+      student_id: user.id,
+      gm_id: gm.id,
+      status: "waiting",
+      fen: new Chess().fen(),
+      turn: "white",
+    })
+    .select()
+    .single();
+
+  if (error || !data) {
+    console.error(error);
+    return;
+  }
+
+  // entrar a la partida real
+  router.push(`/game/${data.id}`);
+};
+
 
   return (
     <div onClick={(e) => goTo(e, `/gm/${gm.id}`)} className="group relative bg-gradient-to-br from-slate-900/80 to-slate-950/80 backdrop-blur border border-amber-900/20 rounded-2xl overflow-hidden hover:border-amber-600/40 transition-all duration-300 hover:shadow-2xl hover:shadow-amber-900/20 hover:-translate-y-1">
@@ -74,7 +110,7 @@ const goTo = (e: React.MouseEvent, path: string) => {
         {/* 2. BOTÓN DE JUEGO: Con z-20 y pointer-events-auto para "flotar" sobre el link invisible */}
         <div className="pt-2 relative z-20 pointer-events-auto">
           <button
-            onClick={(e) => goTo(e, `/game/${gm.id}`)}
+           onClick={startGame}
             disabled={!gm.is_available}
             className={`w-full py-3 rounded-xl font-bold transition-all flex items-center justify-center gap-2 ${
               gm.is_available
