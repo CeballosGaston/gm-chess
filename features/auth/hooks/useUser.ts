@@ -35,7 +35,7 @@ export function useUser() {
     queryFn: async (): Promise<Profile | null> => {
       return profileService.getCurrentUser();
     },
-    staleTime: 1000 * 60 * 10,
+    staleTime: 0,
   });
 
   // ======================
