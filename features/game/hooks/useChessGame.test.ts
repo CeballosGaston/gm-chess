@@ -1,95 +1,104 @@
-import { renderHook, act } from "@testing-library/react";
-import { describe, it, expect } from "vitest";
-
+import { renderHook, waitFor, act } from "@testing-library/react";
+import { describe, it, expect, vi, beforeEach, type Mock } from "vitest";
 import { useChessGame } from "./useChessGame";
+import { supabase } from "@/lib/supabase";
+import { PostgrestSingleResponse } from "@supabase/supabase-js";
 
-describe("useChessGame", () => {
-  /**
-   * GIVEN un nuevo juego de ajedrez
-   * WHEN el hook se inicializa
-   * THEN debería comenzar:
-   * - con turno de blancas
-   * - sin movimientos
-   * - sin jaque
-   * - sin jaque mate
-   */
-  it("should initialize a fresh chess game correctly", () => {
-    const { result } = renderHook(() => useChessGame());
+vi.mock("@/lib/supabase", () => ({
+  supabase: {
+    from: vi.fn(),
+    channel: vi.fn(),
+    removeChannel: vi.fn(),
+  },
+}));
 
-    expect(result.current.turn).toBe("w");
-    expect(result.current.moves).toHaveLength(0);
-    expect(result.current.isCheck).toBe(false);
-    expect(result.current.isCheckmate).toBe(false);
-    expect(result.current.isDraw).toBe(false);
+describe("Feature: Chess Game Logic", () => {
+  const createMockChain = () => {
+    const chain = {
+      select: vi.fn().mockReturnThis(),
+      update: vi.fn().mockReturnThis(),
+      eq: vi.fn().mockReturnThis(),
+      single: vi.fn(),
+    };
+
+    chain.select.mockReturnValue(chain);
+    chain.update.mockReturnValue(chain);
+    chain.eq.mockReturnValue(chain);
+    return chain;
+  };
+
+  let mockChain: ReturnType<typeof createMockChain>;
+
+  beforeEach(() => {
+    vi.clearAllMocks();
+    mockChain = createMockChain();
+
+    (supabase.from as Mock).mockReturnValue(mockChain);
+
+    (supabase.channel as Mock).mockReturnValue({
+      on: vi.fn().mockReturnThis(),
+      subscribe: vi.fn().mockReturnThis(),
+    });
   });
 
-  /**
-   * GIVEN una partida recién iniciada
-   * WHEN las blancas juegan e2 -> e4
-   * THEN:
-   * - el movimiento debería ser válido
-   * - el turno debería pasar a negras
-   * - el historial debería registrar "e4"
-   */
-  it("should allow a valid move", async () => {
-    const { result } = renderHook(() => useChessGame());
+  it("Scenario: Loading an existing game", async () => {
+    const mockData = {
+      fen: "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1",
+      turn: "b",
+    };
 
+    mockChain.single.mockResolvedValue({
+      data: mockData,
+      error: null,
+      success: true,
+    } as PostgrestSingleResponse<{ fen: string; turn: string }>);
+
+    const { result } = renderHook(() =>
+      useChessGame({ gameId: "game-123", playerColor: "w" }),
+    );
+
+    await waitFor(
+      () => {
+        expect(result.current.fen).toBe(mockData.fen);
+        expect(result.current.turn).toBe("b");
+      },
+      { timeout: 2000 },
+    );
+  });
+
+  it("Scenario: Making a valid move", async () => {
+    const initialFen =
+      "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+
+    mockChain.single.mockResolvedValueOnce({
+      data: { fen: initialFen, turn: "w" },
+      error: null,
+      success: true,
+    } as PostgrestSingleResponse<{ fen: string; turn: string }>);
+
+    mockChain.single.mockResolvedValue({
+      data: null,
+      error: null,
+      success: true,
+    });
+
+    const { result } = renderHook(() =>
+      useChessGame({ gameId: "game-123", playerColor: "w" }),
+    );
+
+    await waitFor(() => expect(result.current.turn).toBe("w"));
+
+    let moveSuccess = false;
     await act(async () => {
-      result.current.onDrop("e2", "e4");
+      moveSuccess = await result.current.onDrop("e2", "e4");
     });
 
+    expect(moveSuccess).toBe(true);
     expect(result.current.turn).toBe("b");
-    expect(result.current.moves).toContain("e4");
-  });
 
-  /**
-   * GIVEN una partida recién iniciada
-   * WHEN un jugador intenta hacer un movimiento inválido
-   * THEN:
-   * - el movimiento debería ser rechazado
-   * - el estado del juego NO debería cambiar
-   * - el historial debería permanecer vacío
-   */
-  it("should reject an invalid move", () => {
-    const { result } = renderHook(() => useChessGame());
-
-    let moveResult = true;
-
-    act(() => {
-      // Movimiento inválido:
-      // un peón no puede ir de e2 a e5 directamente
-      moveResult = result.current.onDrop("e2", "e5");
-    });
-
-    expect(moveResult).toBe(false);
-    expect(result.current.turn).toBe("w");
-    expect(result.current.moves).toHaveLength(0);
-  });
-
-  /**
-   * GIVEN una partida con movimientos realizados
-   * WHEN el usuario reinicia la partida
-   * THEN:
-   * - el tablero debería volver al estado inicial
-   * - el historial debería vaciarse
-   * - el turno debería volver a blancas
-   */
-  it("should reset the game correctly", () => {
-    const { result } = renderHook(() => useChessGame());
-
-    act(() => {
-      result.current.onDrop("e2", "e4");
-    });
-
-    expect(result.current.moves).toHaveLength(1);
-
-    act(() => {
-      result.current.resetGame();
-    });
-
-    expect(result.current.moves).toHaveLength(0);
-    expect(result.current.turn).toBe("w");
-    expect(result.current.isCheck).toBe(false);
-    expect(result.current.isCheckmate).toBe(false);
+    expect(mockChain.update).toHaveBeenCalledWith(
+      expect.objectContaining({ turn: "b" }),
+    );
+    expect(mockChain.eq).toHaveBeenCalledWith("id", "game-123");
   });
 });

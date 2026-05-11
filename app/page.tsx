@@ -2,19 +2,30 @@
 
 import { useGms } from '@/features/marketplace/hooks/useGms'
 import { GMCard } from '@/features/marketplace/components/GMCard'
+import { useUser } from "@/features/auth/hooks/useUser";
 
 export default function HomePage() {
+   const { data: user, isLoading: userLoading } = useUser();
   const { data: gms, isLoading, error } = useGms()
 
-  if (isLoading) {
+  if (!userLoading && user?.role === "gm") {
+    return (
+      <div className="min-h-screen bg-[#060B18] flex items-center justify-center text-amber-400">
+        Redirigiendo al panel del GM...
+      </div>
+    );
+  }
+
+  if (isLoading || userLoading) {
     return (
       <div className="min-h-screen bg-[#060B18] flex items-center justify-center">
         <div className="text-[#F59E0B] text-xl animate-pulse font-medium">
           Preparando el tablero...
         </div>
       </div>
-    )
+    );
   }
+
 
   if (error) {
     return (

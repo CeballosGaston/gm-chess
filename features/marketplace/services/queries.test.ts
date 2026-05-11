@@ -4,8 +4,7 @@ import { supabase } from "@/lib/supabase";
 import { Profile } from "../../../types/index";
 import { User} from "@supabase/supabase-js";
 
-// Definimos una interfaz para nuestro mock de la cadena de Supabase
-// Esto evita el uso de 'any' al tipar el retorno de supabase.from
+
 interface SupabaseChainMock {
   select: Mock;
   eq: Mock;
@@ -23,7 +22,7 @@ vi.mock("@/lib/supabase", () => ({
 }));
 
 describe("profileService", () => {
-  // Creamos un objeto que implementa nuestra interfaz de mock
+ 
   const mockChain: SupabaseChainMock = {
     select: vi.fn().mockReturnThis(),
     eq: vi.fn().mockReturnThis(),
@@ -33,11 +32,11 @@ describe("profileService", () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
-    // Resetemos los retornos específicos de cada método del chain
+    
     mockChain.select.mockReturnThis();
     mockChain.eq.mockReturnThis();
     
-    // Forzamos a supabase.from a devolver nuestro objeto tipado
+   
     vi.mocked(supabase.from).mockReturnValue(mockChain as unknown as ReturnType<typeof supabase.from>);
   });
 
