@@ -112,7 +112,6 @@ describe("useUser Hook", () => {
       avatar_url: "https://example.com/photo.png",
       role: "gm",
       title: "GM",
-
       bio: "",
       elo: 2800,
       rating_avg: 4,
@@ -120,23 +119,37 @@ describe("useUser Hook", () => {
       is_available: false,
       created_at: new Date().toISOString(),
     };
-    queryClient.setQueryData(["currentUser"], mockUser);
+
+    // 1. Preparamos el mock para que devuelva el usuario al inicio
+    // y null en las siguientes llamadas (simulando que ya no hay sesión)
+    vi.mocked(profileService.getCurrentUser)
+      .mockResolvedValueOnce(mockUser) // Primera carga (montaje)
+      .mockResolvedValue(null);        // Después del logout
+
     vi.mocked(authService.signOut).mockResolvedValue(undefined);
 
     const { result } = renderHook(() => useUser(), { wrapper });
 
+    // Esperamos a que el hook cargue el usuario inicialmente
+    await waitFor(() => expect(result.current.data).toEqual(mockUser));
+
+    // 2. Ejecutamos el logout
     await act(async () => {
       await result.current.logout();
     });
 
+    // 3. Verificaciones
     expect(authService.signOut).toHaveBeenCalled();
+    
     await waitFor(() => {
-      const cachedData = queryClient.getQueryData(["currentUser"]);
-      expect(cachedData).toBeNull();
+      // Verificamos el estado del hook directamente
+      expect(result.current.data).toBeNull();
+      // Verificamos que el cache de QueryClient esté vacío
+      expect(queryClient.getQueryData(["currentUser"])).toBeNull();
     });
+
     expect(mockPush).toHaveBeenCalledWith("/login");
   });
-
   /**
    * Scenario: Auth state synchronization
    * When Supabase triggers SIGNED_IN event

@@ -5,6 +5,10 @@ import path from "path";
 export default defineConfig({
   plugins: [react()],
   test: {
+    env: {
+      NEXT_PUBLIC_SUPABASE_URL: 'http://localhost:54321',
+      NEXT_PUBLIC_SUPABASE_ANON_KEY: 'foo',
+    },
     environment: "jsdom",
     globals: true,
     setupFiles: "./vitest.setup.ts",
