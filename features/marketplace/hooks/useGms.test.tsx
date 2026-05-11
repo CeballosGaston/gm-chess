@@ -6,7 +6,7 @@ import { profileService } from "../services/queries";
 import { Profile } from "../../../types/index";
 import React from "react";
 
-// Mock del servicio
+// Mock
 vi.mock("../services/queries", () => ({
   profileService: {
     getGMs: vi.fn(),
@@ -41,7 +41,6 @@ describe("useGms Hook", () => {
    * Then it should return a list of profiles from the profileService
    */
   it("Given available GMs, When the hook is invoked, Then it should fetch and return the list of GMs", async () => {
-    // Definimos un mock que cumpla con la interfaz Profile completa
     const mockGms: Profile[] = [
       {
         id: "gm-1",
@@ -62,10 +61,8 @@ describe("useGms Hook", () => {
 
     const { result } = renderHook(() => useGms(), { wrapper });
 
-    // Verificamos el estado de carga inicial
     expect(result.current.isLoading).toBe(true);
 
-    // Esperamos a que la query resuelva
     await waitFor(() => expect(result.current.isSuccess).toBe(true));
 
     // Validamos los datos recibidos

@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { authService } from "./authService";
 import { supabase } from "@/lib/supabase";
-// Importamos los tipos necesarios de Supabase
+
 import { OAuthResponse, AuthError } from "@supabase/supabase-js";
 
 // Mock de Supabase
@@ -17,14 +17,14 @@ vi.mock("@/lib/supabase", () => ({
 describe("authService", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    
+
     // Mock de window.location.origin
     Object.defineProperty(window, "location", {
       value: {
         origin: "http://localhost:3000",
       },
       writable: true,
-      configurable: true
+      configurable: true,
     });
   });
 
@@ -37,15 +37,14 @@ describe("authService", () => {
    * Then it should return a valid OAuthResponse containing the provider and URL
    */
   it("Given a sign-in request, When signIn is called, Then it should call signInWithOAuth with correct parameters", async () => {
-    // Definimos el mock con el tipo estricto OAuthResponse
-    const mockResponse: OAuthResponse = { 
-      data: { 
-        provider: "google", 
-        url: "https://google.com" 
-      }, 
-      error: null 
+    const mockResponse: OAuthResponse = {
+      data: {
+        provider: "google",
+        url: "https://google.com",
+      },
+      error: null,
     };
-    
+
     vi.mocked(supabase.auth.signInWithOAuth).mockResolvedValue(mockResponse);
 
     const result = await authService.signIn();
@@ -79,13 +78,11 @@ describe("authService", () => {
    * Then it should throw a typed AuthError
    */
   it("Given a failure in Supabase, When signOut is called, Then it should throw the error returned by Supabase", async () => {
-    // Tipamos el error correctamente como AuthError
     const mockError = new AuthError("Sign out failed", 500);
     mockError.name = "AuthError";
-    
-    
-    vi.mocked(supabase.auth.signOut).mockResolvedValue({ 
-      error: mockError 
+
+    vi.mocked(supabase.auth.signOut).mockResolvedValue({
+      error: mockError,
     });
 
     await expect(authService.signOut()).rejects.toThrow("Sign out failed");

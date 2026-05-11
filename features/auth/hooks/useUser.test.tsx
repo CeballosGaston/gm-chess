@@ -7,10 +7,9 @@ import { profileService } from "../../marketplace/services/queries";
 import { authService } from "../services/authService";
 import { useRouter } from "next/navigation";
 import React from "react";
-// Importamos el tipo Profile (ajusta la ruta según tu proyecto)
 import { Profile } from "../../../types/index";
 
-// Mocks con tipado estricto
+// Mocks
 vi.mock("@/lib/supabase", () => ({
   supabase: {
     auth: {
@@ -74,7 +73,6 @@ describe("useUser Hook", () => {
    * Then it should return the full Profile object
    */
   it("Given a logged-in user, When the hook is initialized, Then it should fetch and return the user profile", async () => {
-    // Creamos un mock que cumpla estrictamente con la interfaz Profile
     const mockUser: Profile = {
       id: "123",
       name: "John Doe",
@@ -120,31 +118,25 @@ describe("useUser Hook", () => {
       created_at: new Date().toISOString(),
     };
 
-    // 1. Preparamos el mock para que devuelva el usuario al inicio
-    // y null en las siguientes llamadas (simulando que ya no hay sesión)
     vi.mocked(profileService.getCurrentUser)
-      .mockResolvedValueOnce(mockUser) // Primera carga (montaje)
-      .mockResolvedValue(null);        // Después del logout
+      .mockResolvedValueOnce(mockUser)
+      .mockResolvedValue(null);
 
     vi.mocked(authService.signOut).mockResolvedValue(undefined);
 
     const { result } = renderHook(() => useUser(), { wrapper });
 
-    // Esperamos a que el hook cargue el usuario inicialmente
     await waitFor(() => expect(result.current.data).toEqual(mockUser));
 
-    // 2. Ejecutamos el logout
     await act(async () => {
       await result.current.logout();
     });
 
-    // 3. Verificaciones
     expect(authService.signOut).toHaveBeenCalled();
-    
+
     await waitFor(() => {
-      // Verificamos el estado del hook directamente
       expect(result.current.data).toBeNull();
-      // Verificamos que el cache de QueryClient esté vacío
+
       expect(queryClient.getQueryData(["currentUser"])).toBeNull();
     });
 

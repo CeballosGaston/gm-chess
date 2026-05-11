@@ -13,8 +13,6 @@ vi.mock("@/lib/supabase", () => ({
 }));
 
 describe("Feature: Chess Game Logic", () => {
-  // 1. Creamos un Proxy/Mock que siempre se devuelve a sí mismo
-  // Esto evita errores de ".eq() is not a function" o ".single() is not a function"
   const createMockChain = () => {
     const chain = {
       select: vi.fn().mockReturnThis(),
@@ -22,7 +20,7 @@ describe("Feature: Chess Game Logic", () => {
       eq: vi.fn().mockReturnThis(),
       single: vi.fn(),
     };
-    // Hacemos que select, update y eq siempre devuelvan el objeto 'chain'
+
     chain.select.mockReturnValue(chain);
     chain.update.mockReturnValue(chain);
     chain.eq.mockReturnValue(chain);
@@ -35,9 +33,8 @@ describe("Feature: Chess Game Logic", () => {
     vi.clearAllMocks();
     mockChain = createMockChain();
 
-    // Configuramos Supabase para usar nuestra cadena
     (supabase.from as Mock).mockReturnValue(mockChain);
-    
+
     (supabase.channel as Mock).mockReturnValue({
       on: vi.fn().mockReturnThis(),
       subscribe: vi.fn().mockReturnThis(),
@@ -45,44 +42,48 @@ describe("Feature: Chess Game Logic", () => {
   });
 
   it("Scenario: Loading an existing game", async () => {
-    const mockData = { 
-      fen: "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1", 
-      turn: "b" 
+    const mockData = {
+      fen: "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1",
+      turn: "b",
     };
 
-    // Configuramos el resultado específico de este test
     mockChain.single.mockResolvedValue({
       data: mockData,
       error: null,
       success: true,
     } as PostgrestSingleResponse<{ fen: string; turn: string }>);
 
-    const { result } = renderHook(() => 
-      useChessGame({ gameId: "game-123", playerColor: "w" })
+    const { result } = renderHook(() =>
+      useChessGame({ gameId: "game-123", playerColor: "w" }),
     );
 
-    // Verificamos que el estado inicial se carga correctamente
-    await waitFor(() => {
-      expect(result.current.fen).toBe(mockData.fen);
-      expect(result.current.turn).toBe("b");
-    }, { timeout: 2000 });
+    await waitFor(
+      () => {
+        expect(result.current.fen).toBe(mockData.fen);
+        expect(result.current.turn).toBe("b");
+      },
+      { timeout: 2000 },
+    );
   });
 
   it("Scenario: Making a valid move", async () => {
-    const initialFen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
-    
-    // Al cargar el juego por primera vez
+    const initialFen =
+      "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+
     mockChain.single.mockResolvedValueOnce({
       data: { fen: initialFen, turn: "w" },
       error: null,
       success: true,
     } as PostgrestSingleResponse<{ fen: string; turn: string }>);
 
-    // Al hacer el update
-    mockChain.single.mockResolvedValue({ data: null, error: null, success: true });
+    mockChain.single.mockResolvedValue({
+      data: null,
+      error: null,
+      success: true,
+    });
 
-    const { result } = renderHook(() => 
-      useChessGame({ gameId: "game-123", playerColor: "w" })
+    const { result } = renderHook(() =>
+      useChessGame({ gameId: "game-123", playerColor: "w" }),
     );
 
     await waitFor(() => expect(result.current.turn).toBe("w"));
@@ -94,10 +95,9 @@ describe("Feature: Chess Game Logic", () => {
 
     expect(moveSuccess).toBe(true);
     expect(result.current.turn).toBe("b");
-    
-    // Verificamos las llamadas a la DB
+
     expect(mockChain.update).toHaveBeenCalledWith(
-      expect.objectContaining({ turn: "b" })
+      expect.objectContaining({ turn: "b" }),
     );
     expect(mockChain.eq).toHaveBeenCalledWith("id", "game-123");
   });

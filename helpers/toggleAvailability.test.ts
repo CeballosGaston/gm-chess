@@ -3,7 +3,7 @@ import { toggleAvailability } from "./toggleAvailability"; // Ajusta la ruta
 import { supabase } from "@/lib/supabase";
 import { PostgrestSingleResponse } from "@supabase/supabase-js";
 
-// Mock de Supabase
+// Mock 
 vi.mock("@/lib/supabase", () => ({
   supabase: {
     from: vi.fn(),
@@ -11,7 +11,7 @@ vi.mock("@/lib/supabase", () => ({
 }));
 
 describe("Service: toggleAvailability", () => {
-  // Creamos la cadena de mocks para Supabase
+ 
   const createMockChain = () => {
     const chain = {
       update: vi.fn().mockReturnThis(),
@@ -41,7 +41,7 @@ describe("Service: toggleAvailability", () => {
     const currentState = true;
     const mockUpdatedData = { id: userId, is_available: false };
 
-    // Configuramos el mock para que devuelva éxito
+   
     mockChain.single.mockResolvedValue({
       data: mockUpdatedData,
       error: null,
@@ -50,11 +50,11 @@ describe("Service: toggleAvailability", () => {
 
     const result = await toggleAvailability(userId, currentState);
 
-    // Assertions de lógica
+   
     expect(result).toEqual(mockUpdatedData);
     expect(result.is_available).toBe(false);
 
-    // Assertions de llamada a Supabase
+    
     expect(supabase.from).toHaveBeenCalledWith("profiles");
     expect(mockChain.update).toHaveBeenCalledWith({ is_available: false });
     expect(mockChain.eq).toHaveBeenCalledWith("id", userId);
@@ -75,7 +75,7 @@ describe("Service: toggleAvailability", () => {
       success: false,
     } as PostgrestSingleResponse<null>);
 
-    // Verificamos que la función lance el error
+  
     await expect(toggleAvailability("123", true)).rejects.toEqual(mockError);
   });
 
