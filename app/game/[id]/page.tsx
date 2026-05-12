@@ -4,14 +4,13 @@ import { Chessboard } from "react-chessboard";
 import { useParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { createBrowserClient } from "@supabase/ssr";
-
 import { Profile } from "@/types";
 import { useChessGame } from "@/features/game/hooks/useChessGame";
-
 import { ArrowLeft, ShieldCheck } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import  GameMessages  from "../../../features/messages/components/GameMessages";
 
 export default function ChessGamePage() {
   const { id } = useParams();
@@ -86,7 +85,7 @@ export default function ChessGamePage() {
       playerColor,
     });
 
-  const isGM = master?.role === "gm";
+  const isGM = userId === gameData?.game.gm_id;
 
   if (isLoading) {
     return (
@@ -161,6 +160,7 @@ export default function ChessGamePage() {
             <div className="text-xs text-slate-400">
               Moves: {moves.join(" ")}
             </div>
+            <GameMessages gameId={id as string} isGM={isGM} />
           </div>
         </div>
       </div>
