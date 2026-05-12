@@ -1,9 +1,7 @@
 import { supabase } from "@/lib/supabase";
 
 export const walletService = {
-  // =========================
-  // ADD COINS
-  // =========================
+  
   addCoins: async (userId: string, amount: number) => {
     const { data: profile, error: fetchError } = await supabase
       .from("profiles")
@@ -28,9 +26,7 @@ export const walletService = {
     return data;
   },
 
-  // =========================
-  // SPEND COINS
-  // =========================
+  
   spendCoins: async (userId: string, amount: number) => {
     const { data: profile, error: fetchError } = await supabase
       .from("profiles")

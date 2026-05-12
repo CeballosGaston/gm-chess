@@ -41,17 +41,17 @@ export function useUser() {
   // ======================
   // REDIRECT POR ROL
   // ======================
-  useEffect(() => {
-    const user = userQuery.data;
+  // useEffect(() => {
+  //   const user = userQuery.data;
 
-    if (!user) return;
+  //   if (!user) return;
 
-    if (user.role === "gm") {
-      router.push("/gm");
-    } else {
-      router.push("/");
-    }
-  }, [userQuery.data, router]);
+  //   if (user.role === "gm") {
+  //     router.push("/gm");
+  //   } else {
+  //     router.push("/");
+  //   }
+  // }, [userQuery.data, router]);
 
   // ======================
   // LOGOUT

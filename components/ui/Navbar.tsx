@@ -4,9 +4,11 @@ import { Coins, User, Wallet } from "lucide-react";
 import Link from "next/link";
 import { useUser } from "@/features/auth/hooks/useUser";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 export default function Navbar() {
   const { data: user, isLoading, isError, logout } = useUser();
+  const router = useRouter();
 
   if (isError) {
     console.error("Error cargando el usuario");
@@ -38,7 +40,9 @@ export default function Navbar() {
             </div>
 
             {/* Comprar */}
-            <button className="bg-primary hover:opacity-90 text-black px-5 py-2 rounded-full font-bold text-sm transition-transform active:scale-95">
+            <button 
+            onClick={() => router.push("/wallet")}
+            className="bg-primary hover:opacity-90 text-black px-5 py-2 rounded-full font-bold text-sm transition-transform active:scale-95">
               Comprar Fichas
             </button>
           </>
