@@ -4,9 +4,11 @@ import { useEffect, useMemo, useState, useCallback } from "react";
 import { Chess, Square, Color } from "chess.js";
 import { supabase } from "@/lib/supabase";
 
+import { useUser } from "@/features/auth/hooks/useUser";
+
 type Props = {
   gameId: string;
-  playerColor: Color; 
+  playerColor: Color;
 };
 
 type GamePayload = {
@@ -17,13 +19,13 @@ type GamePayload = {
 };
 
 export function useChessGame({ gameId, playerColor }: Props) {
+  const { data: user } = useUser();
   const START_FEN = new Chess().fen();
   const [fen, setFen] = useState<string>(START_FEN);
   const [turn, setTurn] = useState<Color>("w");
 
   const chess = useMemo(() => new Chess(fen || undefined), [fen]);
 
-  // LOAD GAME
   useEffect(() => {
     const load = async () => {
       const { data } = await supabase
@@ -38,9 +40,8 @@ export function useChessGame({ gameId, playerColor }: Props) {
       }
     };
     load();
-  }, [gameId]); // Aquí gameId es vital para recargar si cambias de partida
+  }, [gameId]);
 
-  // REALTIME
   useEffect(() => {
     if (!gameId) return;
 
@@ -57,16 +58,15 @@ export function useChessGame({ gameId, playerColor }: Props) {
         (payload: GamePayload) => {
           setFen(payload.new.fen);
           setTurn(payload.new.turn);
-        }
+        },
       )
       .subscribe();
 
     return () => {
       supabase.removeChannel(channel);
     };
-  }, [gameId]); // Solo gameId. Supabase no es necesario por ser import externo.
+  }, [gameId]);
 
-  // MOVE
   const onDrop = useCallback(
     async (source: Square, target: Square): Promise<boolean> => {
       const game = new Chess(fen);
@@ -84,28 +84,51 @@ export function useChessGame({ gameId, playerColor }: Props) {
       const newFen = game.fen();
       const nextTurn = game.turn();
 
+      let newStatus = "active";
+      let winnerId = null;
+
+      if (game.isCheckmate()) {
+        newStatus = "finished";
+
+        winnerId = user?.role || null;
+      } else if (game.isGameOver()) {
+        newStatus = "finished";
+        winnerId = "draw";
+      }
+
       setFen(newFen);
       setTurn(nextTurn);
-      
 
       const { error } = await supabase
         .from("games")
-        .update({ fen: newFen, turn: nextTurn })
+        .update({
+          fen: newFen,
+          turn: nextTurn,
+          status: newStatus,
+          winner: winnerId,
+          finished_at:
+            newStatus === "finished" ? new Date().toISOString() : null,
+        })
         .eq("id", gameId);
 
       if (error) {
-  console.error("CÓDIGO ERROR:", error.code);
-  console.error("MENSAJE ERROR:", error.message);
-  console.error("DETALLES:", error.details);
-  return false;
-}
+        console.error("Error:", error.message);
+        return false;
+      }
+
       return true;
     },
-    [fen, gameId, playerColor] // Estas tres son las que hacen que la lógica sea correcta
+
+    [fen, gameId, playerColor, user],
   );
 
-  return { fen, turn, onDrop, moves: chess.history(),
-     isCheck: chess.inCheck(),
+  return {
+    fen,
+    turn,
+    onDrop,
+    moves: chess.history(),
+    isCheck: chess.inCheck(),
     isCheckmate: chess.isCheckmate(),
-    isDraw: chess.isDraw(),};
+    isDraw: chess.isDraw(),
+  };
 }
