@@ -4,9 +4,27 @@ import Link from "next/link";
 import { useUser } from "@/features/auth/hooks/useUser";
 import { toggleAvailability } from "@/helpers/toggleAvailability";
 import { useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default function GMHomePage() {
-  const { data: user } = useUser();
+  const { data: user, isLoading } = useUser();
+  const router = useRouter();
+
+
+  useEffect(() => {
+  if (isLoading) return;
+
+  if (!user) {
+    router.replace("/login");
+    return;
+  }
+
+  if (user.role !== "gm") {
+    router.replace("/");
+  }
+}, [user, isLoading, router]);
+
   const queryClient = useQueryClient();
 
   const handleToggle = async () => {
@@ -24,6 +42,18 @@ export default function GMHomePage() {
       }),
     ]);
   };
+
+  if (isLoading) {
+  return (
+    <div className="min-h-screen bg-slate-950 flex items-center justify-center text-amber-400">
+      Cargando...
+    </div>
+  );
+}
+
+if (!user || user.role !== "gm") {
+  return null;
+}
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-200 flex items-center justify-center">

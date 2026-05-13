@@ -1,15 +1,29 @@
 "use client";
 
 import { Mail } from "lucide-react";
-import { authService } from '@/features/auth/services/authService';
-
-
+import { authService } from "@/features/auth/services/authService";
+import { useEffect } from "react";
+import { useUser } from "@/features/auth/hooks/useUser";
+import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
- 
- 
+  const { data: user } = useUser();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!user) return;
+
+    if (user.role === "gm") {
+      router.push("/gm")
+    }
+
+   else if (user.role === "student") {
+      router.push("/");
+    }
+  }, [user, router]);
+
   const handleLogin = async () => {
-        const { error } = await authService.signIn();
+    const { error } = await authService.signIn();
     if (error) console.error("Error en login:", error.message);
   };
 

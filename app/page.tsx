@@ -1,12 +1,24 @@
-'use client'
+"use client";
 
-import { useGms } from '@/features/marketplace/hooks/useGms'
-import { GMCard } from '@/features/marketplace/components/GMCard'
+import { useGms } from "@/features/marketplace/hooks/useGms";
+import { GMCard } from "@/features/marketplace/components/GMCard";
 import { useUser } from "@/features/auth/hooks/useUser";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 export default function HomePage() {
-   const { data: user, isLoading: userLoading } = useUser();
-  const { data: gms, isLoading, error } = useGms()
+  const { data: user, isLoading: userLoading } = useUser();
+  const { data: gms, isLoading, error } = useGms();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!userLoading && user?.role === "gm") {
+      router.push("/gm");
+    }
+  }, [user, userLoading, router]);
+
+
+  
 
   if (!userLoading && user?.role === "gm") {
     return (
@@ -26,13 +38,14 @@ export default function HomePage() {
     );
   }
 
-
   if (error) {
     return (
       <div className="min-h-screen bg-[#060B18] flex items-center justify-center">
-        <p className="text-red-400">Error al cargar maestros: {(error as Error).message}</p>
+        <p className="text-red-400">
+          Error al cargar maestros: {(error as Error).message}
+        </p>
       </div>
-    )
+    );
   }
 
   return (
@@ -43,7 +56,8 @@ export default function HomePage() {
           Aprende de los Mejores
         </h1>
         <p className="text-slate-400 text-lg md:text-xl leading-relaxed">
-          Juega y recibe coaching personalizado de grandes maestros de ajedrez de élite mundial
+          Juega y recibe coaching personalizado de grandes maestros de ajedrez
+          de élite mundial
         </p>
       </section>
 
@@ -56,5 +70,5 @@ export default function HomePage() {
         </div>
       </section>
     </main>
-  )
+  );
 }

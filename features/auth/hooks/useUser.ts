@@ -38,9 +38,7 @@ export function useUser() {
     staleTime: 0,
   });
 
-  // ======================
-  // REDIRECT POR ROL
-  // ======================
+  
   // useEffect(() => {
   //   const user = userQuery.data;
 
