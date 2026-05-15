@@ -1,8 +1,12 @@
 "use client";
 
+import { useState, useCallback, useRef, useEffect } from "react";
 import { Chessboard } from "react-chessboard";
+import type { Square } from "chess.js";
 import { Profile } from "@/types";
 import { useChessGame } from "@/features/game/hooks/useChessGame";
+import { useStockfish } from "@/features/game/hooks/useStockfish";
+import { HintButton } from "@/features/game/components/HintButton";
 import { ArrowLeft, ShieldCheck, Swords } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
@@ -39,6 +43,54 @@ export function ChessGameView({ id, gameData, userId, isGM }: Props) {
     gameId: id,
     playerColor,
   });
+
+  const { getBestMove, loading, cancel } = useStockfish();
+  const [hintMove, setHintMove] = useState<{ from: Square; to: Square } | null>(null);
+
+  const isMyTurn = turn === playerColor && !isCheckmate;
+
+  const handleHint = useCallback(async () => {
+    cancel();
+    setHintMove(null);
+    const result = await getBestMove(fen);
+    if (result) {
+      setHintMove({ from: result.from as Square, to: result.to as Square });
+    }
+  }, [fen, getBestMove, cancel]);
+
+  const boardRef = useRef<HTMLDivElement>(null);
+  const [boardSize, setBoardSize] = useState(0);
+
+  useEffect(() => {
+    const el = boardRef.current;
+    if (!el) return;
+    const update = () => setBoardSize(el.offsetWidth);
+    update();
+    const obs = new ResizeObserver(update);
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+
+  const handleDrop = useCallback(
+    (source: Square, target: Square): boolean => {
+      setHintMove(null);
+      onDrop(source, target);
+      return true;
+    },
+    [onDrop],
+  );
+
+  const squareSize = boardSize / 8;
+  const files = "abcdefgh";
+
+  const getSquareCenter = (sq: Square) => {
+    const fileIdx = files.indexOf(sq[0]);
+    const rankIdx = parseInt(sq[1]) - 1;
+    const isBlack = playerColor === "b";
+    const x = (isBlack ? 7 - fileIdx : fileIdx) * squareSize + squareSize / 2;
+    const y = (isBlack ? rankIdx : 7 - rankIdx) * squareSize + squareSize / 2;
+    return { x, y };
+  };
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-200 flex flex-col">
@@ -83,6 +135,14 @@ export function ChessGameView({ id, gameData, userId, isGM }: Props) {
                   JAQUE
                 </div>
               )}
+
+              {isMyTurn && !isGM && (
+                <HintButton
+                  onClick={handleHint}
+                  loading={loading}
+                  disabled={!isMyTurn}
+                />
+              )}
             </div>
 
             {isCheckmate ? (
@@ -96,18 +156,54 @@ export function ChessGameView({ id, gameData, userId, isGM }: Props) {
             )}
           </div>
 
-          <div className="w-full max-w-[37.5rem] mx-auto lg:mx-0 shadow-2xl shadow-black ring-1 ring-slate-800 rounded-sm overflow-hidden aspect-square">
+          <div
+            ref={boardRef}
+            className="relative w-full max-w-[37.5rem] mx-auto lg:mx-0 shadow-2xl shadow-black ring-1 ring-slate-800 rounded-sm overflow-hidden aspect-square"
+          >
             <Chessboard
               position={fen}
-              onPieceDrop={(source, target) => {
-                onDrop(source, target);
-                return true;
-              }}
+              onPieceDrop={handleDrop}
               animationDuration={300}
               boardOrientation={playerColor === "b" ? "black" : "white"}
               customDarkSquareStyle={{ backgroundColor: "#1e293b" }}
               customLightSquareStyle={{ backgroundColor: "#475569" }}
             />
+            {hintMove && boardSize > 0 && (
+              <svg
+                className="absolute inset-0 pointer-events-none"
+                width={boardSize}
+                height={boardSize}
+                viewBox={`0 0 ${boardSize} ${boardSize}`}
+              >
+                <circle
+                  cx={getSquareCenter(hintMove.from).x}
+                  cy={getSquareCenter(hintMove.from).y}
+                  r={squareSize * 0.4}
+                  fill="rgba(251, 191, 36, 0.35)"
+                  stroke="rgb(251, 191, 36)"
+                  strokeWidth={2}
+                />
+                <circle
+                  cx={getSquareCenter(hintMove.to).x}
+                  cy={getSquareCenter(hintMove.to).y}
+                  r={squareSize * 0.4}
+                  fill="rgba(251, 191, 36, 0.25)"
+                  stroke="rgb(251, 191, 36)"
+                  strokeWidth={2}
+                  strokeDasharray="4 2"
+                />
+                <line
+                  x1={getSquareCenter(hintMove.from).x}
+                  y1={getSquareCenter(hintMove.from).y}
+                  x2={getSquareCenter(hintMove.to).x}
+                  y2={getSquareCenter(hintMove.to).y}
+                  stroke="rgb(251, 191, 36)"
+                  strokeWidth={2}
+                  strokeDasharray="6 3"
+                  opacity={0.6}
+                />
+              </svg>
+            )}
           </div>
         </div>
 
