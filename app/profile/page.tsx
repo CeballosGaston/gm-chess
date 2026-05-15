@@ -1,39 +1,42 @@
 "use client";
 
 import { useProfile } from "@/features/profile/hooks/useProfile";
-import { User, Star, Languages, Circle, ShieldCheck, Coins, Calendar } from "lucide-react";
+import {
+  User,
+  Star,
+  Languages,
+  ShieldCheck,
+  Coins,
+  Calendar,
+} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 
-export default function ProfilePage() {
-  const { profile, isLoading, isSaving, save, LANGUAGE_OPTIONS, isGM, isSuccess } = useProfile();
+type Profile = NonNullable<ReturnType<typeof useProfile>["profile"]>;
 
-  const [bio, setBio] = useState("");
-  const [languages, setLanguages] = useState<string[]>([]);
-  const [isAvailable, setIsAvailable] = useState(false);
+function ProfileForm({
+  profile,
+  LANGUAGE_OPTIONS,
+  isGM,
+  isSaving,
+  save,
+}: {
+  profile: Profile;
+  LANGUAGE_OPTIONS: readonly string[];
+  isGM: boolean;
+  isSaving: boolean;
+  save: ReturnType<typeof useProfile>["save"];
+}) {
+  const [bio, setBio] = useState(profile.bio ?? "");
+  const [languages, setLanguages] = useState<string[]>(profile.languages ?? []);
+  const [isAvailable, setIsAvailable] = useState(profile.is_available ?? false);
   const [pageLang, setPageLang] = useState("es");
   const [showToast, setShowToast] = useState(false);
-
-  useEffect(() => {
-    if (profile) {
-      setBio(profile.bio ?? "");
-      setLanguages(profile.languages ?? []);
-      setIsAvailable(profile.is_available ?? false);
-    }
-  }, [profile]);
-
-  useEffect(() => {
-    if (isSuccess) {
-      setShowToast(true);
-      const timer = setTimeout(() => setShowToast(false), 2500);
-      return () => clearTimeout(timer);
-    }
-  }, [isSuccess]);
 
   const toggleLanguage = (lang: string) => {
     setLanguages((prev) =>
@@ -49,38 +52,23 @@ export default function ProfilePage() {
       updates.is_available = isAvailable;
     }
 
-    save(updates as Parameters<typeof save>[0]);
+    save(updates as Parameters<typeof save>[0], {
+      onSuccess: () => {
+        setShowToast(true);
+        setTimeout(() => setShowToast(false), 2500);
+      },
+    });
   };
 
   const hasChanges = () => {
-    if (!profile) return false;
     if (bio !== (profile.bio ?? "")) return true;
     if (isGM) {
-      if (JSON.stringify(languages) !== JSON.stringify(profile.languages ?? [])) return true;
+      if (JSON.stringify(languages) !== JSON.stringify(profile.languages ?? []))
+        return true;
       if (isAvailable !== profile.is_available) return true;
     }
     return false;
   };
-
-  if (isLoading) {
-    return (
-      <div className="min-h-screen bg-slate-950 p-6 md:p-10 flex items-center justify-center">
-        <div className="flex flex-col items-center gap-4">
-          <Skeleton className="w-24 h-24 rounded-full bg-slate-800" />
-          <Skeleton className="h-6 w-48 bg-slate-800" />
-          <Skeleton className="h-4 w-32 bg-slate-800" />
-        </div>
-      </div>
-    );
-  }
-
-  if (!profile) {
-    return (
-      <div className="min-h-screen bg-slate-950 flex items-center justify-center">
-        <p className="text-slate-400">No se pudo cargar el perfil</p>
-      </div>
-    );
-  }
 
   const fullStars = Math.floor(profile.rating_avg);
   const hasHalfStar = profile.rating_avg % 1 !== 0;
@@ -290,5 +278,41 @@ export default function ProfilePage() {
         </div>
       )}
     </div>
+  );
+}
+
+export default function ProfilePage() {
+  const { profile, isLoading, isSaving, save, LANGUAGE_OPTIONS, isGM } =
+    useProfile();
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-slate-950 p-6 md:p-10 flex items-center justify-center">
+        <div className="flex flex-col items-center gap-4">
+          <Skeleton className="w-24 h-24 rounded-full bg-slate-800" />
+          <Skeleton className="h-6 w-48 bg-slate-800" />
+          <Skeleton className="h-4 w-32 bg-slate-800" />
+        </div>
+      </div>
+    );
+  }
+
+  if (!profile) {
+    return (
+      <div className="min-h-screen bg-slate-950 flex items-center justify-center">
+        <p className="text-slate-400">No se pudo cargar el perfil</p>
+      </div>
+    );
+  }
+
+  return (
+    <ProfileForm
+      key={profile.id}
+      profile={profile}
+      LANGUAGE_OPTIONS={LANGUAGE_OPTIONS}
+      isGM={isGM}
+      isSaving={isSaving}
+      save={save}
+    />
   );
 }
