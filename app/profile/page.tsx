@@ -110,28 +110,32 @@ function ProfileForm({
                 {profile.name ?? "Sin nombre"}
               </h2>
               <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2">
-                <Badge size="sm">{profile.title ?? "—"}</Badge>
                 <span className="text-sm text-slate-400 italic">
                   ELO {profile.elo}
                 </span>
-                <div className="flex items-center gap-1">
-                  {[...Array(5)].map((_, i) => (
-                    <Star
-                      key={i}
-                      className={cn(
-                        "w-3.5 h-3.5",
-                        i < fullStars
-                          ? "fill-amber-500 text-amber-500"
-                          : i === fullStars && hasHalfStar
-                            ? "fill-amber-500 text-amber-500 opacity-50"
-                            : "text-slate-600",
-                      )}
-                    />
-                  ))}
-                  <span className="text-xs text-slate-400 ml-1">
-                    {profile.rating_avg}
-                  </span>
-                </div>
+                {profile.role === "gm" && (
+                  <>
+                    <Badge size="sm">{profile.title ?? "—"}</Badge>
+                    <div className="flex items-center gap-1">
+                      {[...Array(5)].map((_, i) => (
+                        <Star
+                          key={i}
+                          className={cn(
+                            "w-3.5 h-3.5",
+                            i < fullStars
+                              ? "fill-amber-500 text-amber-500"
+                              : i === fullStars && hasHalfStar
+                                ? "fill-amber-500 text-amber-500 opacity-50"
+                                : "text-slate-600",
+                          )}
+                        />
+                      ))}
+                      <span className="text-xs text-slate-400 ml-1">
+                        {profile.rating_avg}
+                      </span>
+                    </div>
+                  </>
+                )}
               </div>
               <div className="flex flex-wrap items-center justify-center sm:justify-start gap-3 text-xs text-slate-400">
                 <span className="flex items-center gap-1">
@@ -159,25 +163,27 @@ function ProfileForm({
           <hr className="border-slate-800" />
 
           <div className="space-y-6">
-            <div>
-              <label
-                htmlFor="bio"
-                className="block text-sm font-medium text-slate-300 mb-2"
-              >
-                Biografía
-              </label>
-              <textarea
-                id="bio"
-                value={bio}
-                onChange={(e) => setBio(e.target.value)}
-                rows={4}
-                placeholder="Cuéntanos sobre ti..."
-                className="w-full bg-slate-800 border border-slate-700 rounded-xl p-4 text-sm text-slate-200 placeholder-slate-500 resize-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:outline-none"
-              />
-              <p className="text-xs text-slate-500 mt-1.5 text-right">
-                {bio.length} caracteres
-              </p>
-            </div>
+            {profile.role === "gm" && (
+              <div>
+                <label
+                  htmlFor="bio"
+                  className="block text-sm font-medium text-slate-300 mb-2"
+                >
+                  Biografía
+                </label>
+                <textarea
+                  id="bio"
+                  value={bio}
+                  onChange={(e) => setBio(e.target.value)}
+                  rows={4}
+                  placeholder="Cuéntanos sobre ti..."
+                  className="w-full bg-slate-800 border border-slate-700 rounded-xl p-4 text-sm text-slate-200 placeholder-slate-500 resize-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:outline-none"
+                />
+                <p className="text-xs text-slate-500 mt-1.5 text-right">
+                  {bio.length} caracteres
+                </p>
+              </div>
+            )}
 
             {isGM && (
               <div>
