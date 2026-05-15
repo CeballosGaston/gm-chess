@@ -34,7 +34,7 @@ export function useGMGame(gm: Profile) {
         gm_id: gm.id,
         status: "waiting",
         fen: new Chess().fen(),
-        turn: "white",
+        turn: "w",
       })
       .select()
       .single();

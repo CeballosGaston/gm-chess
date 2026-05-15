@@ -44,7 +44,8 @@ export default function Navbar() {
             {/* Comprar */}
             <button
               onClick={() => router.push("/wallet")}
-              className="bg-primary hover:opacity-90 text-black px-5 py-2 rounded-full font-bold text-sm transition-transform active:scale-95"
+              aria-label="Comprar fichas"
+              className="bg-primary hover:opacity-90 text-black px-5 py-2 rounded-full font-bold text-sm transition-transform active:scale-95 focus-visible:ring-2 focus-visible:ring-amber-300 focus-visible:outline-none"
             >
               Comprar Fichas
             </button>
@@ -52,7 +53,7 @@ export default function Navbar() {
         )}
 
         {user?.role === "gm" && (
-          <button className="hidden md:flex items-center gap-2 bg-black/40 px-4 py-2 rounded-full border border-primary/20 hover:border-primary transition">
+          <button aria-label="Ganancias del GM" className="hidden md:flex items-center gap-2 bg-black/40 px-4 py-2 rounded-full border border-primary/20 hover:border-primary transition focus-visible:ring-2 focus-visible:ring-amber-300 focus-visible:outline-none">
             <Wallet className="w-4 h-4 text-primary" />
             <span className="text-sm font-medium text-white">Ganancias</span>
           </button>
@@ -77,7 +78,7 @@ export default function Navbar() {
           </div>
 
           <div className="hidden sm:block text-right">
-            <p className="text-xs text-slate-500 leading-none mb-1">
+            <p className="text-xs text-slate-400 leading-none mb-1">
               Bienvenido
             </p>
 
@@ -88,7 +89,8 @@ export default function Navbar() {
             {user && (
               <button
                 onClick={logout}
-                className="text-[10px] text-slate-500 hover:text-red-400 transition-colors font-medium"
+                aria-label="Cerrar sesión"
+                className="text-[10px] text-slate-400 hover:text-red-400 transition-colors font-medium focus-visible:ring-2 focus-visible:ring-red-400 focus-visible:outline-none"
               >
                 Cerrar sesión
               </button>

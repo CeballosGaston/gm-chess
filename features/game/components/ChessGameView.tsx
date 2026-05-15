@@ -44,8 +44,8 @@ export function ChessGameView({ id, gameData, userId, isGM }: Props) {
     <div className="min-h-screen bg-slate-950 text-slate-200 flex flex-col">
       <header className="sticky top-0 z-50 bg-slate-950/80 backdrop-blur-md border-b border-slate-800 p-3 lg:p-4">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
-          <Link href="/" className="text-slate-400 hover:text-amber-400 transition-colors flex items-center gap-2 text-xs md:text-sm">
-            <ArrowLeft className="w-4 h-4" />
+          <Link href="/" aria-label="Volver al panel principal" className="text-slate-400 hover:text-amber-400 transition-colors flex items-center gap-2 text-xs md:text-sm focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:outline-none rounded">
+            <ArrowLeft className="w-4 h-4" aria-hidden="true" />
             <span className="hidden sm:inline">Volver al panel</span>
             <span className="sm:hidden">Salir</span>
           </Link>
@@ -57,7 +57,7 @@ export function ChessGameView({ id, gameData, userId, isGM }: Props) {
             </div>
             <Image
               src={master?.avatar_url || "/placeholder.png"}
-              alt="GM Avatar"
+              alt={master?.name ? `Avatar de ${master.name}` : "Avatar del Gran Maestro"}
               width={32}
               height={32}
               className="rounded-full border border-slate-700 md:w-10 md:h-10"
@@ -90,7 +90,7 @@ export function ChessGameView({ id, gameData, userId, isGM }: Props) {
                 🏆 JAQUE MATE
               </div>
             ) : (
-              <div className="text-[10px] font-mono text-slate-500">
+              <div className="text-[10px] font-mono text-slate-400">
                 Último mov: {moves[moves.length - 1] || "None"}
               </div>
             )}

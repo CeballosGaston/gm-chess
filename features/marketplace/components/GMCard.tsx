@@ -41,16 +41,18 @@ export function GMCard({ gm }: MasterCardProps) {
               unoptimized={true}
             />
             <div
+              role="status"
+              aria-label={gm.is_available ? "Disponible" : "No disponible"}
               className={cn("absolute -bottom-1 -right-1 w-6 h-6 rounded-full flex items-center justify-center ring-2 ring-slate-900", gm.is_available ? "bg-green-500" : "bg-slate-600")}
             >
-              <Circle className="w-3 h-3 fill-current text-white" />
+              <Circle className="w-3 h-3 fill-current text-white" aria-hidden="true" />
             </div>
           </div>
 
           <div className="flex-1">
             <div className="flex items-center gap-2 font-medium">
               <Badge>{gm.title}</Badge>
-              <span className="text-slate-500 text-sm italic">
+              <span className="text-slate-400 text-sm italic">
                 ELO {gm.elo}
               </span>
             </div>

@@ -68,7 +68,8 @@ export default function GMLobbyPage() {
             <button
               key={game.id}
               onClick={() => joinGame(game.id)}
-              className="w-full p-4 bg-slate-900 rounded hover:bg-slate-800 transition text-left"
+              aria-label={`Unirse a partida ${game.id.slice(0, 8)}`}
+              className="w-full p-4 bg-slate-900 rounded hover:bg-slate-800 transition text-left focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:outline-none"
             >
               <div className="flex justify-between items-center">
                 <span>Partida {game.id.slice(0, 8)}</span>
