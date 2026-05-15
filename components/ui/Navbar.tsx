@@ -4,11 +4,13 @@ import { Coins, User, Wallet } from "lucide-react";
 import Link from "next/link";
 import { useUser } from "@/features/auth/hooks/useUser";
 import { useLogout } from "@/features/auth/hooks/useLogout";
+import { useGMEarnings } from "@/features/wallet/hooks/useGMEarnings";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 export default function Navbar() {
   const { data: user, isLoading, isError } = useUser();
+  const { data: earnings = 0 } = useGMEarnings(user?.id);
   const { logout } = useLogout();
   const router = useRouter();
 
@@ -55,7 +57,9 @@ export default function Navbar() {
         {user?.role === "gm" && (
           <button aria-label="Ganancias del GM" className="hidden md:flex items-center gap-2 bg-black/40 px-4 py-2 rounded-full border border-primary/20 hover:border-primary transition focus-visible:ring-2 focus-visible:ring-amber-300 focus-visible:outline-none">
             <Wallet className="w-4 h-4 text-primary" />
-            <span className="text-sm font-medium text-white">Ganancias</span>
+            <span className="text-sm font-medium text-white">
+              <span className="text-primary">{earnings}</span> Ganancias
+            </span>
           </button>
         )}
 
