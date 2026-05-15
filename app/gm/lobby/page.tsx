@@ -16,10 +16,17 @@ export default function GMLobbyPage() {
   const { data: games, isLoading } = useQuery({
   queryKey: ["waiting-games"],
   queryFn: async () => {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    if (!user) return [];
+
     const { data, error } = await supabase
       .from("games")
       .select("*")
       .eq("status", "waiting")
+      .eq("gm_id", user.id)
       .order("created_at", { ascending: false });
 
     if (error) throw error;
