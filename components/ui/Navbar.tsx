@@ -65,7 +65,10 @@ export default function Navbar() {
 
         {/* USER PROFILE */}
         <div className="flex items-center gap-3 px-4 py-2 bg-slate-900/50 rounded-full border border-amber-900/20">
-          <div className="relative w-9 h-9 rounded-full bg-slate-800 flex items-center justify-center border border-white/10 overflow-hidden">
+          <Link
+            href="/profile"
+            className="relative w-9 h-9 rounded-full bg-slate-800 flex items-center justify-center border border-white/10 overflow-hidden hover:ring-2 hover:ring-amber-500 transition-all focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:outline-none"
+          >
             {user?.avatar_url ? (
               <Image
                 src={avatarSrc}
@@ -79,7 +82,7 @@ export default function Navbar() {
             ) : (
               <User className="w-4 h-4 text-amber-500" />
             )}
-          </div>
+          </Link>
 
           <div className="hidden sm:block text-right">
             <p className="text-xs text-slate-400 leading-none mb-1">
@@ -97,7 +100,7 @@ export default function Navbar() {
               <button
                 onClick={logout}
                 aria-label="Cerrar sesión"
-                className="text-[0.625rem] text-slate-400 hover:text-red-400 transition-colors font-medium focus-visible:ring-2 focus-visible:ring-red-400 focus-visible:outline-none"
+                className="block text-[0.625rem] text-slate-400 hover:text-red-400 transition-colors font-medium focus-visible:ring-2 focus-visible:ring-red-400 focus-visible:outline-none mt-1"
               >
                 Cerrar sesión
               </button>
