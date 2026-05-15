@@ -86,9 +86,12 @@ export default function Navbar() {
               Bienvenido
             </p>
 
-            <p className="text-sm font-bold text-white leading-none">
+            <Link
+              href="/profile"
+              className="text-sm font-bold text-white leading-none hover:text-amber-400 transition-colors focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:outline-none rounded"
+            >
               {isLoading ? "Cargando..." : user?.name || "Invitado"}
-            </p>
+            </Link>
 
             {user && (
               <button
