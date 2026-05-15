@@ -4,7 +4,10 @@ import { Star, Languages, Circle, Play } from "lucide-react";
 import { Profile } from "../../../types/index";
 import Image from "next/image";
 import { useState } from "react";
-import { useGMGame } from "../hooks/useGMGame"; // <-- Importamos el nuevo hook
+import { useGMGame } from "../hooks/useGMGame";
+import { cn } from "@/lib/utils";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 
 interface MasterCardProps {
   gm: Profile;
@@ -38,7 +41,7 @@ export function GMCard({ gm }: MasterCardProps) {
               unoptimized={true}
             />
             <div
-              className={`absolute -bottom-1 -right-1 w-6 h-6 rounded-full flex items-center justify-center ${gm.is_available ? "bg-green-500" : "bg-slate-600"} ring-2 ring-slate-900`}
+              className={cn("absolute -bottom-1 -right-1 w-6 h-6 rounded-full flex items-center justify-center ring-2 ring-slate-900", gm.is_available ? "bg-green-500" : "bg-slate-600")}
             >
               <Circle className="w-3 h-3 fill-current text-white" />
             </div>
@@ -46,9 +49,7 @@ export function GMCard({ gm }: MasterCardProps) {
 
           <div className="flex-1">
             <div className="flex items-center gap-2 font-medium">
-              <span className="px-2 py-0.5 bg-amber-500/20 text-amber-400 text-xs font-bold rounded border border-amber-500/30 uppercase">
-                {gm.title}
-              </span>
+              <Badge>{gm.title}</Badge>
               <span className="text-slate-500 text-sm italic">
                 ELO {gm.elo}
               </span>
@@ -63,7 +64,7 @@ export function GMCard({ gm }: MasterCardProps) {
           {[...Array(5)].map((_, i) => (
             <Star
               key={i}
-              className={`w-4 h-4 ${i < fullStars ? "fill-amber-500 text-amber-500" : i === fullStars && hasHalfStar ? "fill-amber-500 text-amber-500 opacity-50" : "text-slate-600"}`}
+              className={cn("w-4 h-4", i < fullStars ? "fill-amber-500 text-amber-500" : i === fullStars && hasHalfStar ? "fill-amber-500 text-amber-500 opacity-50" : "text-slate-600")}
             />
           ))}
           <span className="ml-2 text-sm text-slate-400 font-medium">
@@ -77,20 +78,14 @@ export function GMCard({ gm }: MasterCardProps) {
         </div>
 
         <div className="pt-2 relative z-20 pointer-events-auto">
-          <button
+          <Button
             onClick={handlePlayClick}
             disabled={!gm.is_available || coins < GAME_COST}
-            className={`w-full py-3 rounded-xl font-bold transition-all flex items-center justify-center gap-2 ${
-              gm.is_available
-                ? "bg-gradient-to-r from-amber-600 to-yellow-600 text-black hover:from-amber-500 hover:to-yellow-500 shadow-lg shadow-amber-900/40 active:scale-95"
-                : "bg-slate-800 text-slate-500 cursor-not-allowed opacity-60"
-            }`}
+            variant={gm.is_available ? "primary" : "secondary"}
           >
-            <Play
-              className={`w-4 h-4 ${gm.is_available ? "fill-current" : ""}`}
-            />
+            <Play className={cn("w-4 h-4", gm.is_available && "fill-current")} />
             {gm.is_available ? "Jugar Ahora" : "No Disponible"}
-          </button>
+          </Button>
         </div>
       </div>
     </div>

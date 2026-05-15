@@ -3,6 +3,8 @@
 import { useWallet } from "@/features/wallet/hooks/useWallet";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 
 const PACKAGES = [
   { amount: 100, label: "Pack Básico" },
@@ -63,9 +65,7 @@ export default function WalletPage() {
                 </div>
 
                 <div>
-                  <span className="px-2 py-0.5 bg-amber-500/20 text-amber-400 text-xs font-bold rounded border border-amber-500/30 uppercase">
-                    Pack
-                  </span>
+                  <Badge>Pack</Badge>
 
                   <h3 className="text-xl font-bold text-white mt-1 group-hover:text-amber-400 transition-colors">
                     {pkg.label}
@@ -81,12 +81,12 @@ export default function WalletPage() {
 
               {/* BUTTON */}
               <div className="pt-2 relative z-20 pointer-events-auto">
-                <button
+                <Button
                   onClick={() => buyCoins(pkg.amount)}
-                  className="w-full py-3 rounded-xl font-bold bg-gradient-to-r from-amber-600 to-yellow-600 text-black hover:from-amber-500 hover:to-yellow-500 shadow-lg shadow-amber-900/30 active:scale-95 transition-all"
+                  className="shadow-lg shadow-amber-900/30"
                 >
                   Comprar
-                </button>
+                </Button>
               </div>
 
             </div>
