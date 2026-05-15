@@ -4,11 +4,7 @@ import { Star, Languages, Circle, Play } from "lucide-react";
 import { Profile } from "../../../types/index";
 import Image from "next/image";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { supabase } from "@/lib/supabase";
-import { Chess } from "chess.js";
-import { useWallet } from "@/features/wallet/hooks/useWallet";
-import { GAME_COST } from "@/features/game/config/gameConfig";
+import { useGMGame } from "../hooks/useGMGame"; // <-- Importamos el nuevo hook
 
 interface MasterCardProps {
   gm: Profile;
@@ -20,60 +16,9 @@ export function GMCard({ gm }: MasterCardProps) {
   );
   const fullStars = Math.floor(gm.rating_avg);
   const hasHalfStar = gm.rating_avg % 1 !== 0;
-  const router = useRouter();
-  const { coins, spendCoins } = useWallet();
 
-  const goTo = (e: React.MouseEvent, path: string) => {
-    e.preventDefault();
-    e.stopPropagation();
-    router.push(path);
-  };
-
-  const startGame = async (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-
-    if (!user) return;
-
-    // crear partida REAL
-    const { data, error } = await supabase
-      .from("games")
-      .insert({
-        student_id: user.id,
-        gm_id: gm.id,
-        status: "waiting",
-        fen: new Chess().fen(),
-        turn: "white",
-      })
-      .select()
-      .single();
-
-    if (error || !data) {
-      console.error(error);
-      return;
-    }
-
-    // entrar a la partida real
-    router.push(`/game/${data.id}`);
-  };
-
-  const handlePlayClick = async (e: React.MouseEvent) => {
-    if (coins < GAME_COST) {
-      console.error("No tienes suficientes fichas");
-      return;
-    }
-
-    try {
-      await startGame(e);
-      await spendCoins(GAME_COST);
-    } catch (error) {
-      console.error("Error iniciando partida:", error);
-    }
-  };
+  // Extraemos toda la lógica operativa del hook
+  const { coins, GAME_COST, goTo, handlePlayClick } = useGMGame(gm);
 
   return (
     <div
@@ -81,11 +26,8 @@ export function GMCard({ gm }: MasterCardProps) {
       className="group relative bg-gradient-to-br from-slate-900/80 to-slate-950/80 backdrop-blur border border-amber-900/20 rounded-2xl overflow-hidden hover:border-amber-600/40 transition-all duration-300 hover:shadow-2xl hover:shadow-amber-900/20 hover:-translate-y-1"
     >
       <div className="relative p-6 space-y-4 pointer-events-none">
-        {/* pointer-events-none arriba hace que los clics pasen a través del texto hacia el Link invisible */}
-
         <div className="flex items-start gap-4">
           <div className="relative pointer-events-auto">
-            {/* pointer-events-auto permite interactuar con elementos específicos si fuera necesario */}
             <Image
               src={imgSrc}
               alt={gm.name || "Avatar"}
@@ -134,7 +76,6 @@ export function GMCard({ gm }: MasterCardProps) {
           <span>{gm.languages.join(", ")}</span>
         </div>
 
-        {/* 2. BOTÓN DE JUEGO: Con z-20 y pointer-events-auto para "flotar" sobre el link invisible */}
         <div className="pt-2 relative z-20 pointer-events-auto">
           <button
             onClick={handlePlayClick}
