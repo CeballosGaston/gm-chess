@@ -59,7 +59,7 @@ export default function GameMessages({ gameId, isGM }: Props) {
             onChange={(e) => setContent(e.target.value)}
             placeholder="Escribe un comentario..."
             aria-label="Escribe un comentario para el alumno"
-            className="w-full min-h-[100px] rounded-lg bg-slate-950 border border-slate-700 p-3 text-sm text-white resize-none focus:outline-none focus:border-amber-500 focus-visible:ring-2 focus-visible:ring-amber-500"
+            className="w-full min-h-[6.25rem] rounded-lg bg-slate-950 border border-slate-700 p-3 text-sm text-white resize-none focus:outline-none focus:border-amber-500 focus-visible:ring-2 focus-visible:ring-amber-500"
           />
 
           <button
@@ -73,7 +73,7 @@ export default function GameMessages({ gameId, isGM }: Props) {
       )}
 
       {/* MESSAGES */}
-      <div className="space-y-3 max-h-[400px] overflow-y-auto">
+      <div className="space-y-3 max-h-[25rem] overflow-y-auto">
         {messages.length === 0 && (
           <div className="text-xs text-slate-400">
             Todavía no hay comentarios.
@@ -89,7 +89,7 @@ export default function GameMessages({ gameId, isGM }: Props) {
               {message.content}
             </p>
 
-            <div className="mt-2 text-[10px] text-slate-400">
+            <div className="mt-2 text-[0.625rem] text-slate-400">
               {new Date(message.created_at).toLocaleString()}
             </div>
           </div>

@@ -90,7 +90,7 @@ export default function Navbar() {
               <button
                 onClick={logout}
                 aria-label="Cerrar sesión"
-                className="text-[10px] text-slate-400 hover:text-red-400 transition-colors font-medium focus-visible:ring-2 focus-visible:ring-red-400 focus-visible:outline-none"
+                className="text-[0.625rem] text-slate-400 hover:text-red-400 transition-colors font-medium focus-visible:ring-2 focus-visible:ring-red-400 focus-visible:outline-none"
               >
                 Cerrar sesión
               </button>

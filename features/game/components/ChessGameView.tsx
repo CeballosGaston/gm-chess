@@ -52,7 +52,7 @@ export function ChessGameView({ id, gameData, userId, isGM }: Props) {
 
           <div className="flex items-center gap-3">
             <div className="text-right hidden xs:block">
-              <p className="text-[10px] text-amber-500 font-bold uppercase tracking-widest leading-none">Instructor</p>
+              <p className="text-[0.625rem] text-amber-500 font-bold uppercase tracking-widest leading-none">Instructor</p>
               <p className="text-xs text-white font-medium">{master?.name}</p>
             </div>
             <Image
@@ -70,7 +70,7 @@ export function ChessGameView({ id, gameData, userId, isGM }: Props) {
         <div className="lg:col-span-7 xl:col-span-8 flex flex-col gap-4">
           <div className="flex flex-wrap items-center justify-between gap-2 bg-slate-900/50 p-2 rounded-lg border border-slate-800">
             <div className="flex gap-2 items-center">
-              <div className={`px-3 py-1.5 rounded-md flex items-center gap-2 text-[10px] md:text-xs font-bold uppercase transition-all
+              <div className={`px-3 py-1.5 rounded-md flex items-center gap-2 text-[0.625rem] md:text-xs font-bold uppercase transition-all
                 ${turn === playerColor 
                   ? "bg-amber-500 text-slate-950" 
                   : "bg-slate-800 text-slate-400 border border-slate-700"}`}>
@@ -79,24 +79,24 @@ export function ChessGameView({ id, gameData, userId, isGM }: Props) {
               </div>
 
               {isCheck && !isCheckmate && (
-                <div className="bg-red-500/20 border border-red-500/50 text-red-500 px-3 py-1.5 rounded-md text-[10px] md:text-xs font-bold animate-pulse">
+                <div className="bg-red-500/20 border border-red-500/50 text-red-500 px-3 py-1.5 rounded-md text-[0.625rem] md:text-xs font-bold animate-pulse">
                   JAQUE
                 </div>
               )}
             </div>
 
             {isCheckmate ? (
-              <div className="bg-amber-500/20 border border-amber-500 text-amber-500 px-3 py-1.5 rounded-md text-[10px] md:text-xs font-black">
+              <div className="bg-amber-500/20 border border-amber-500 text-amber-500 px-3 py-1.5 rounded-md text-[0.625rem] md:text-xs font-black">
                 🏆 JAQUE MATE
               </div>
             ) : (
-              <div className="text-[10px] font-mono text-slate-400">
+              <div className="text-[0.625rem] font-mono text-slate-400">
                 Último mov: {moves[moves.length - 1] || "None"}
               </div>
             )}
           </div>
 
-          <div className="w-full max-w-[600px] mx-auto lg:mx-0 shadow-2xl shadow-black ring-1 ring-slate-800 rounded-sm overflow-hidden aspect-square">
+          <div className="w-full max-w-[37.5rem] mx-auto lg:mx-0 shadow-2xl shadow-black ring-1 ring-slate-800 rounded-sm overflow-hidden aspect-square">
             <Chessboard
               position={fen}
               onPieceDrop={(source, target) => {
@@ -111,7 +111,7 @@ export function ChessGameView({ id, gameData, userId, isGM }: Props) {
           </div>
         </div>
 
-        <div className="lg:col-span-5 xl:col-span-4 flex flex-col h-[500px] lg:h-auto min-h-[400px]">
+        <div className="lg:col-span-5 xl:col-span-4 flex flex-col h-[31.25rem] lg:h-auto min-h-[25rem]">
           <div className="flex-1 bg-slate-900/40 rounded-xl border border-slate-800 overflow-hidden flex flex-col shadow-inner">
             <div className="bg-slate-800/50 p-3 border-b border-slate-700 flex items-center justify-between">
               <h3 className="text-xs font-bold uppercase tracking-tighter text-slate-400 flex items-center gap-2">
