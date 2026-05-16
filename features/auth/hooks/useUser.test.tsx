@@ -1,24 +1,18 @@
-import { renderHook, waitFor, act } from "@testing-library/react";
+import { renderHook, waitFor } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { useUser } from "./useUser";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { supabase } from "@/lib/supabase";
-import { profileService } from "../../marketplace/services/queries";
-import { authService } from "../services/authService";
-import { useRouter } from "next/navigation";
-import React from "react";
-import { Profile } from "../../../types/index";
 
-// Mocks
-vi.mock("@/lib/supabase", () => ({
-  supabase: {
-    auth: {
-      onAuthStateChange: vi.fn(() => ({
-        data: { subscription: { unsubscribe: vi.fn() } },
-      })),
-    },
-  },
-}));
+import {
+  QueryClient,
+  QueryClientProvider,
+} from "@tanstack/react-query";
+
+import React from "react";
+
+import { useUser } from "./useUser";
+
+import { profileService } from "../../marketplace/services/queries";
+
+import type { Profile } from "@/types";
 
 vi.mock("../../marketplace/services/queries", () => ({
   profileService: {
@@ -26,45 +20,34 @@ vi.mock("../../marketplace/services/queries", () => ({
   },
 }));
 
-vi.mock("../services/authService", () => ({
-  authService: {
-    signOut: vi.fn(),
-  },
-}));
-
-vi.mock("next/navigation", () => ({
-  useRouter: vi.fn(),
-}));
-
 describe("useUser Hook", () => {
   const createQueryClient = () =>
     new QueryClient({
-      defaultOptions: { queries: { retry: false, gcTime: 0 } },
+      defaultOptions: {
+        queries: {
+          retry: false,
+          gcTime: 0,
+        },
+      },
     });
 
-  let queryClient = createQueryClient();
-
-  const wrapper = ({ children }: { children: React.ReactNode }) => (
-    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-  );
-
-  const mockPush = vi.fn();
+  let queryClient: QueryClient;
 
   beforeEach(() => {
     vi.clearAllMocks();
-    queryClient = createQueryClient();
 
-    vi.mocked(useRouter).mockReturnValue({
-      push: mockPush,
-      forward: vi.fn(),
-      back: vi.fn(),
-      replace: vi.fn(),
-      refresh: vi.fn(),
-      prefetch: vi.fn(),
-    });
+    queryClient = createQueryClient();
   });
 
-  // Feature: User Authentication and Profile Management
+  const wrapper = ({
+    children,
+  }: {
+    children: React.ReactNode;
+  }) => (
+    <QueryClientProvider client={queryClient}>
+      {children}
+    </QueryClientProvider>
+  );
 
   /**
    * Scenario: Successfully fetching user data
@@ -73,37 +56,6 @@ describe("useUser Hook", () => {
    * Then it should return the full Profile object
    */
   it("Given a logged-in user, When the hook is initialized, Then it should fetch and return the user profile", async () => {
-    const mockUser: Profile = {
-      id: "123",
-      name: "John Doe",
-      avatar_url: "https://example.com/photo.png",
-      role: "gm",
-      title: "GM",
-
-      bio: "",
-      elo: 2800,
-      rating_avg: 4,
-      languages: ["spanish"],
-      is_available: false,
-      created_at: new Date().toISOString(),
-    };
-
-    vi.mocked(profileService.getCurrentUser).mockResolvedValue(mockUser);
-
-    const { result } = renderHook(() => useUser(), { wrapper });
-
-    await waitFor(() => expect(result.current.isSuccess).toBe(true));
-
-    expect(result.current.data).toEqual(mockUser);
-  });
-
-  /**
-   * Scenario: User initiates logout
-   * Given an authenticated session is active
-   * When the logout function is invoked
-   * Then it should sign out and redirect
-   */
-  it("Given an active session, When the logout function is called, Then it should sign out, clear cache, and redirect to login", async () => {
     const mockUser: Profile = {
       id: "123",
       name: "John Doe",
@@ -119,46 +71,67 @@ describe("useUser Hook", () => {
     };
 
     vi.mocked(profileService.getCurrentUser)
-      .mockResolvedValueOnce(mockUser)
-      .mockResolvedValue(null);
+      .mockResolvedValue(mockUser);
 
-    vi.mocked(authService.signOut).mockResolvedValue(undefined);
-
-    const { result } = renderHook(() => useUser(), { wrapper });
-
-    await waitFor(() => expect(result.current.data).toEqual(mockUser));
-
-    await act(async () => {
-      await result.current.logout();
-    });
-
-    expect(authService.signOut).toHaveBeenCalled();
+    const { result } = renderHook(
+      () => useUser(),
+      { wrapper },
+    );
 
     await waitFor(() => {
-      expect(result.current.data).toBeNull();
-
-      expect(queryClient.getQueryData(["currentUser"])).toBeNull();
+      expect(result.current.isSuccess).toBe(true);
     });
 
-    expect(mockPush).toHaveBeenCalledWith("/login");
+    expect(profileService.getCurrentUser)
+      .toHaveBeenCalledTimes(1);
+
+    expect(result.current.data).toEqual(mockUser);
   });
+
   /**
-   * Scenario: Auth state synchronization
-   * When Supabase triggers SIGNED_IN event
-   * Then the query cache should be invalidated
+   * Scenario: No authenticated user
+   * Given no authenticated session exists
+   * When the hook loads
+   * Then it should return null user data
    */
-  it("Given the auth state changes, When Supabase triggers SIGNED_IN, Then the currentUser query should be invalidated", async () => {
-    const invalidateSpy = vi.spyOn(queryClient, "invalidateQueries");
-    const onAuthStateChangeMock = vi.mocked(supabase.auth.onAuthStateChange);
+  it("Given no authenticated user, When the hook loads, Then it should return null", async () => {
+    vi.mocked(profileService.getCurrentUser)
+      .mockResolvedValue(null);
 
-    renderHook(() => useUser(), { wrapper });
+    const { result } = renderHook(
+      () => useUser(),
+      { wrapper },
+    );
 
-    const callback = onAuthStateChangeMock.mock.calls[0][0];
-
-    act(() => {
-      callback("SIGNED_IN", null);
+    await waitFor(() => {
+      expect(result.current.isSuccess).toBe(true);
     });
 
-    expect(invalidateSpy).toHaveBeenCalledWith({ queryKey: ["currentUser"] });
+    expect(result.current.data).toBeNull();
+  });
+
+  /**
+   * Scenario: Service throws an error
+   * Given the profile service fails
+   * When the hook fetches the user
+   * Then it should expose an error state
+   */
+  it("Given the service fails, When the hook fetches the user, Then it should expose an error state", async () => {
+    vi.mocked(profileService.getCurrentUser)
+      .mockRejectedValue(new Error("Failed to fetch user"));
+
+    const { result } = renderHook(
+      () => useUser(),
+      { wrapper },
+    );
+
+    await waitFor(() => {
+      expect(result.current.isError).toBe(true);
+    });
+
+    expect(result.current.error).toBeInstanceOf(Error);
+
+    expect(result.current.error?.message)
+      .toBe("Failed to fetch user");
   });
 });

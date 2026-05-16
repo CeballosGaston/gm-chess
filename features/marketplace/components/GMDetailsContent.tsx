@@ -2,6 +2,7 @@ import { profileService } from "../../../features/marketplace/services/queries";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, Play, Languages, Star } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 
 export default async function GMDetailsContent({
   params,
@@ -66,9 +67,7 @@ if (!gm) {
 
             <div className="space-y-3">
               <div className="flex items-center gap-2">
-                <span className="px-3 py-1 bg-amber-500/20 text-amber-400 text-sm font-bold rounded border border-amber-500/30">
-                  {gm.title}
-                </span>
+                <Badge size="md">{gm.title}</Badge>
                 <span className="text-slate-400">ELO {gm.elo}</span>
               </div>
 

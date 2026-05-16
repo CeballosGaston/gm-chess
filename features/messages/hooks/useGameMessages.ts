@@ -6,9 +6,7 @@ import type { GameMessage } from "../components/GameMessages";
 export function useGameMessages(gameId: string) {
   const queryClient = useQueryClient();
 
-  // =========================
-  // FETCH MESSAGES
-  // =========================
+  
   const messagesQuery = useQuery<GameMessage[]>({
     queryKey: ["messages", gameId],
     queryFn: async () => {
@@ -23,9 +21,7 @@ export function useGameMessages(gameId: string) {
     },
   });
 
-  // =========================
-  // REALTIME
-  // =========================
+
   useEffect(() => {
     if (!gameId) return;
 
@@ -55,14 +51,12 @@ export function useGameMessages(gameId: string) {
     };
   }, [gameId, queryClient]);
 
-  // =========================
-  // SEND MESSAGE
-  // =========================
+ 
   const sendMessage = async (content: string) => {
     const { error } = await supabase.from("messages").insert({
       game_id: gameId,
       content,
-      // sender_id lo puedes sacar del user hook luego
+    
     });
 
     if (error) throw error;

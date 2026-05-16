@@ -50,7 +50,7 @@ export default function HomePage() {
 
   return (
     <main className="min-h-screen bg-[#060B18] text-white">
-      {/* Hero Section - Basado en Captura de pantalla 2026-05-05 120352.jpg */}
+     
       <section className="pt-24 pb-16 px-6 text-center max-w-4xl mx-auto">
         <h1 className="text-5xl md:text-6xl font-black text-[#F59E0B] mb-6 tracking-tight">
           Aprende de los Mejores
@@ -61,7 +61,7 @@ export default function HomePage() {
         </p>
       </section>
 
-      {/* Grid de Maestros */}
+   
       <section className="max-w-7xl mx-auto px-6 pb-24">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
           {gms?.map((gm) => (

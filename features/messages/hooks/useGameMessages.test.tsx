@@ -1,4 +1,4 @@
-// features/messages/hooks/useGameMessages.test.tsx
+
 
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { renderHook, waitFor } from "@testing-library/react";
@@ -10,9 +10,6 @@ import { ReactNode } from "react";
 
 import { useGameMessages } from "./useGameMessages";
 
-// =========================
-// INTERNAL MOCK REFERENCES
-// =========================
 
 const mocks = vi.hoisted(() => {
   return {
@@ -30,9 +27,6 @@ const mocks = vi.hoisted(() => {
   };
 });
 
-// =========================
-// SUPABASE MOCK
-// =========================
 
 vi.mock("@/lib/supabase", () => ({
   supabase: {
@@ -47,9 +41,7 @@ vi.mock("@/lib/supabase", () => ({
   },
 }));
 
-// =========================
-// HELPERS
-// =========================
+
 
 function createWrapper() {
   const queryClient = new QueryClient({
@@ -73,9 +65,7 @@ function createWrapper() {
   };
 }
 
-// =========================
-// TESTS
-// =========================
+
 
 describe("Feature: Game Messages", () => {
   beforeEach(() => {

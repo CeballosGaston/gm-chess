@@ -21,9 +21,7 @@ export default function GameMessages({ gameId, isGM }: Props) {
 
   const [content, setContent] = useState("");
 
-  // =========================
-  // SEND
-  // =========================
+ 
   const handleSend = async () => {
     if (!content.trim()) return;
 
@@ -38,43 +36,44 @@ export default function GameMessages({ gameId, isGM }: Props) {
 
   return (
     <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 space-y-4">
-      {/* HEADER */}
+     
       <div>
         <h3 className="text-sm font-semibold text-amber-400">
           Comentarios de la partida
         </h3>
 
-        <p className="text-xs text-slate-500">
+        <p className="text-xs text-slate-400">
           {isGM
             ? "Deja comentarios para el alumno"
             : "Comentarios del Gran Maestro"}
         </p>
       </div>
 
-      {/* GM INPUT */}
+    
       {isGM && (
         <div className="space-y-2">
           <textarea
             value={content}
             onChange={(e) => setContent(e.target.value)}
             placeholder="Escribe un comentario..."
-            className="w-full min-h-[100px] rounded-lg bg-slate-950 border border-slate-700 p-3 text-sm text-white resize-none focus:outline-none focus:border-amber-500"
+            aria-label="Escribe un comentario para el alumno"
+            className="w-full min-h-[6.25rem] rounded-lg bg-slate-950 border border-slate-700 p-3 text-sm text-white resize-none focus:outline-none focus:border-amber-500 focus-visible:ring-2 focus-visible:ring-amber-500"
           />
 
           <button
             onClick={handleSend}
             disabled={isSending}
-            className="w-full bg-amber-500 hover:bg-amber-400 text-black font-semibold py-2 rounded-lg transition disabled:opacity-50"
+            className="w-full bg-amber-500 hover:bg-amber-400 text-black font-semibold py-2 rounded-lg transition disabled:opacity-50 focus-visible:ring-2 focus-visible:ring-amber-300 focus-visible:outline-none"
           >
             Enviar comentario
           </button>
         </div>
       )}
 
-      {/* MESSAGES */}
-      <div className="space-y-3 max-h-[400px] overflow-y-auto">
+    
+      <div className="space-y-3 max-h-[25rem] overflow-y-auto">
         {messages.length === 0 && (
-          <div className="text-xs text-slate-500">
+          <div className="text-xs text-slate-400">
             Todavía no hay comentarios.
           </div>
         )}
@@ -88,7 +87,7 @@ export default function GameMessages({ gameId, isGM }: Props) {
               {message.content}
             </p>
 
-            <div className="mt-2 text-[10px] text-slate-500">
+            <div className="mt-2 text-[0.625rem] text-slate-400">
               {new Date(message.created_at).toLocaleString()}
             </div>
           </div>

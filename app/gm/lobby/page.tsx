@@ -16,10 +16,17 @@ export default function GMLobbyPage() {
   const { data: games, isLoading } = useQuery({
   queryKey: ["waiting-games"],
   queryFn: async () => {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    if (!user) return [];
+
     const { data, error } = await supabase
       .from("games")
       .select("*")
       .eq("status", "waiting")
+      .eq("gm_id", user.id)
       .order("created_at", { ascending: false });
 
     if (error) throw error;
@@ -68,7 +75,8 @@ export default function GMLobbyPage() {
             <button
               key={game.id}
               onClick={() => joinGame(game.id)}
-              className="w-full p-4 bg-slate-900 rounded hover:bg-slate-800 transition text-left"
+              aria-label={`Unirse a partida ${game.id.slice(0, 8)}`}
+              className="w-full p-4 bg-slate-900 rounded hover:bg-slate-800 transition text-left focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:outline-none"
             >
               <div className="flex justify-between items-center">
                 <span>Partida {game.id.slice(0, 8)}</span>
