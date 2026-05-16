@@ -20,7 +20,7 @@ export function GMCard({ gm }: MasterCardProps) {
   const fullStars = Math.floor(gm.rating_avg);
   const hasHalfStar = gm.rating_avg % 1 !== 0;
 
-  // Extraemos toda la lógica operativa del hook
+ 
   const { coins, GAME_COST, goTo, handlePlayClick } = useGMGame(gm);
 
   return (

@@ -16,12 +16,12 @@ export function useChessGame({ gameId, playerColor }: Props) {
   const { data: user } = useUser();
   const START_FEN = new Chess().fen();
 
-  // Lógica de estado
+  
   const { 
     fen, setFen, turn, setTurn, moves, isCheck, isCheckmate, isDraw 
   } = useChessLogic(START_FEN);
 
-  // Lógica de Red/Realtime
+  
   useChessRealtime(gameId, setFen, setTurn);
 
   const onDrop = useCallback(

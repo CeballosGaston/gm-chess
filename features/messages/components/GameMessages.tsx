@@ -21,9 +21,7 @@ export default function GameMessages({ gameId, isGM }: Props) {
 
   const [content, setContent] = useState("");
 
-  // =========================
-  // SEND
-  // =========================
+ 
   const handleSend = async () => {
     if (!content.trim()) return;
 
@@ -38,7 +36,7 @@ export default function GameMessages({ gameId, isGM }: Props) {
 
   return (
     <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 space-y-4">
-      {/* HEADER */}
+     
       <div>
         <h3 className="text-sm font-semibold text-amber-400">
           Comentarios de la partida
@@ -51,7 +49,7 @@ export default function GameMessages({ gameId, isGM }: Props) {
         </p>
       </div>
 
-      {/* GM INPUT */}
+    
       {isGM && (
         <div className="space-y-2">
           <textarea
@@ -72,7 +70,7 @@ export default function GameMessages({ gameId, isGM }: Props) {
         </div>
       )}
 
-      {/* MESSAGES */}
+    
       <div className="space-y-3 max-h-[25rem] overflow-y-auto">
         {messages.length === 0 && (
           <div className="text-xs text-slate-400">

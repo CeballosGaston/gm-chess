@@ -65,7 +65,7 @@ describe("useGms Hook", () => {
 
     await waitFor(() => expect(result.current.isSuccess).toBe(true));
 
-    // Validamos los datos recibidos
+   
     expect(result.current.data).toEqual(mockGms);
     expect(result.current.data).toHaveLength(1);
     expect(profileService.getGMs).toHaveBeenCalledTimes(1);

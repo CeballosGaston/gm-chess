@@ -41,7 +41,7 @@ export default function WalletPage() {
         </p>
       </div>
 
-      {/* PACKS */}
+     
       <div className="grid md:grid-cols-3 gap-6">
 
         {PACKAGES.map((pkg) => (
@@ -50,12 +50,12 @@ export default function WalletPage() {
             className="relative group bg-slate-900/40 border border-white/10 rounded-2xl overflow-hidden hover:border-amber-500/30 transition-all"
           >
 
-            {/* glow hover */}
+          
             <div className="absolute inset-0 bg-gradient-to-br from-amber-500/10 to-transparent opacity-0 group-hover:opacity-100 transition" />
 
             <div className="relative p-6 space-y-4 pointer-events-none">
 
-              {/* HEADER VISUAL */}
+            
               <div className="flex items-center gap-4">
 
                 <div className="w-14 h-14 rounded-full bg-amber-500/10 flex items-center justify-center border border-amber-500/20">
@@ -74,12 +74,12 @@ export default function WalletPage() {
 
               </div>
 
-              {/* DESCRIPTION */}
+           
               <p className="text-slate-400 text-sm">
                 Obtén {pkg.amount} fichas para jugar partidas.
               </p>
 
-              {/* BUTTON */}
+             
               <div className="pt-2 relative z-20 pointer-events-auto">
                 <Button
                   onClick={() => buyCoins(pkg.amount)}

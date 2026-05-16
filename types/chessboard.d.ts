@@ -1,4 +1,4 @@
-// chessboard.d.ts
+
 import { Square } from 'chess.js';
 
 declare module 'react-chessboard' {

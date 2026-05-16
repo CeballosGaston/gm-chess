@@ -24,18 +24,18 @@ export default function Navbar() {
 
   return (
     <nav className="flex items-center justify-between px-8 py-4 bg-background border-b border-white/10 sticky top-0 z-50">
-      {/* Logo */}
+    
       <Link href="/" className="flex items-center gap-2">
         <span className="text-2xl font-bold tracking-tighter text-white uppercase">
           GM <span className="text-primary font-light">Grandmasters</span>
         </span>
       </Link>
 
-      {/* RIGHT SIDE */}
+   
       <div className="flex items-center gap-6">
         {user?.role === "student" && (
           <>
-            {/* Fichas */}
+           
             <div className="hidden md:flex items-center gap-2 bg-black/40 px-4 py-2 rounded-full border border-primary/20">
               <Coins className="w-4 h-4 text-primary" />
               <span className="text-sm font-medium">
@@ -43,7 +43,7 @@ export default function Navbar() {
               </span>
             </div>
 
-            {/* Comprar */}
+           
             <button
               onClick={() => router.push("/wallet")}
               aria-label="Comprar fichas"
@@ -63,7 +63,7 @@ export default function Navbar() {
           </button>
         )}
 
-        {/* USER PROFILE */}
+       
         <div className="flex items-center gap-3 px-4 py-2 bg-slate-900/50 rounded-full border border-amber-900/20">
           <Link
             href="/profile"

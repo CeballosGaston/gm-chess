@@ -26,7 +26,7 @@ export async function GET(request: Request) {
     const { error } = await supabase.auth.exchangeCodeForSession(code)
     
     if (!error) {
-      // Redirección absoluta para evitar errores de Next.js
+     
       return NextResponse.redirect(new URL('/', request.url))
     }
     

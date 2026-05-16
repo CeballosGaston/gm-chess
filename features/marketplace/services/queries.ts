@@ -1,4 +1,4 @@
-// features/marketplace/services/queries.ts
+
 import { supabase } from "@/lib/supabase";
 import { Profile } from "../../../types/index";
 
@@ -40,8 +40,7 @@ console.log("1. Usuario Auth:", user);
     .select("*")
     .eq("id", user.id)
     .single();
-    console.log("2. Perfil en DB:", profile); // ¿Existe la fila en la tabla profiles?
-  console.log("3. Error de DB:", error);
+ 
 
   if (error || !profile) {
    
