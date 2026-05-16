@@ -21,7 +21,7 @@ describe("authService", () => {
     // Mock de window.location.origin
     Object.defineProperty(window, "location", {
       value: {
-        origin: "http://localhost:3000",
+        origin: "https://gm-chess-taupe.vercel.app",
       },
       writable: true,
       configurable: true,
@@ -52,7 +52,7 @@ describe("authService", () => {
     expect(supabase.auth.signInWithOAuth).toHaveBeenCalledWith({
       provider: "google",
       options: {
-        redirectTo: "gm-chess-taupe.vercel.app/auth/callback",
+        redirectTo: "https://gm-chess-taupe.vercel.app/auth/callback",
       },
     });
     expect(result).toEqual(mockResponse);

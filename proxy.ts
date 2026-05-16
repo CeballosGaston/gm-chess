@@ -23,7 +23,6 @@ export async function proxy(request: NextRequest) {
     }
   )
 
-  // Usamos getUser() que es más lento pero más seguro para el proxy
   const { data: { user } } = await supabase.auth.getUser()
 
   const isAuthPage = request.nextUrl.pathname.startsWith('/login')
@@ -34,7 +33,6 @@ export async function proxy(request: NextRequest) {
     return NextResponse.redirect(new URL('/login', request.url))
   }
 
-  // 2. Si hay usuario e intenta ir al login -> a la Home
   if (user && isAuthPage) {
     return NextResponse.redirect(new URL('/', request.url))
   }

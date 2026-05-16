@@ -23,7 +23,7 @@ vi.mock("next/server", () => ({
 }));
 
 describe("Auth Callback Route", () => {
-  const origin = "gm-chess-taupe.vercel.app";
+  const origin = "https://gm-chess-taupe.vercel.app";
 
   beforeEach(() => {
     vi.clearAllMocks();
