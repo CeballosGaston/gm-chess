@@ -1,7 +1,7 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   let response = NextResponse.next({
     request: { headers: request.headers },
   })
@@ -23,7 +23,7 @@ export async function middleware(request: NextRequest) {
     }
   )
 
-  // Usamos getUser() que es más lento pero más seguro para el middleware
+  // Usamos getUser() que es más lento pero más seguro para el proxy
   const { data: { user } } = await supabase.auth.getUser()
 
   const isAuthPage = request.nextUrl.pathname.startsWith('/login')
