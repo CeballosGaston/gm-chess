@@ -29,9 +29,9 @@ export const profileService = {
   },
 async getCurrentUser(): Promise<Profile | null> {
   const { data: { user }, error: authError } = await supabase.auth.getUser();
-console.log("1. Usuario Auth:", user);
+
  if (authError || !user) {
-    console.log("Error de Auth o no hay usuario:", authError);
+ 
     return null;
   }
 
