@@ -52,7 +52,7 @@ describe("authService", () => {
     expect(supabase.auth.signInWithOAuth).toHaveBeenCalledWith({
       provider: "google",
       options: {
-        redirectTo: "http://localhost:3000/auth/callback",
+        redirectTo: "gm-chess-taupe.vercel.app/auth/callback",
       },
     });
     expect(result).toEqual(mockResponse);
