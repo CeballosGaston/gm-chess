@@ -85,6 +85,12 @@ export default function Navbar() {
           </Link>
 
           <div className="hidden sm:block text-right">
+            <Link
+              href="/presentation"
+              className="text-xs text-amber-600 hover:text-amber-400 transition-colors block mb-1 tracking-wider font-medium"
+            >
+              PRESENTACI&Oacute;N
+            </Link>
             <p className="text-xs text-slate-400 leading-none mb-1">
               Bienvenido
             </p>
