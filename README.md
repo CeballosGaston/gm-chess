@@ -215,13 +215,13 @@ Schema management is handled through the Supabase Dashboard.
 <!-- TWO COLUMN GRID -->
 <p align="center">
   <img 
-    src="./public/screenshots/marketplace.png" 
+    src="https://github.com/user-attachments/assets/96e3988e-58ad-4059-a6e4-aed3c719d125" />
     alt="Marketplace"
     width="47%"
   />
 
   <img 
-    src="./public/screenshots/game.png" 
+   src="https://github.com/user-attachments/assets/b31e63b4-d387-4430-853e-a396fc50d38a" />
     alt="Live Game"
     width="47%"
   />
@@ -231,13 +231,13 @@ Schema management is handled through the Supabase Dashboard.
 
 <p align="center">
   <img 
-    src="./public/screenshots/dashboard.png" 
+    src="https://github.com/user-attachments/assets/be4f9203-466c-405e-8be4-1edcf186f71c" />
     alt="GM Dashboard"
     width="47%"
   />
 
   <img 
-    src="./public/screenshots/analysis.png" 
+    src="https://github.com/user-attachments/assets/d9ce8ed0-f78c-41ba-8c61-ee03961a4895" />
     alt="AI Analysis"
     width="47%"
   />
@@ -245,14 +245,7 @@ Schema management is handled through the Supabase Dashboard.
 
 <br />
 
-<!-- MOBILE IMAGE -->
-<p align="center">
-  <img 
-    src="./public/screenshots/mobile.png" 
-    alt="Mobile View"
-    width="300"
-  />
-</p>
+
 
 <img width="1857" height="764" alt="Captura de pantalla 2026-05-16 110653" src="https://github.com/user-attachments/assets/359576d3-ed76-4b35-b483-4c772e99343f" />
 <img width="1876" height="599" alt="Captura de pantalla 2026-05-16 110702" src="https://github.com/user-attachments/assets/96e3988e-58ad-4059-a6e4-aed3c719d125" />
