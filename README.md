@@ -294,13 +294,21 @@ Schema management is handled through the Supabase Dashboard.
 
 
 🗺️ Roadmap
+
  📹 In-app video calls for live coaching
+ 
  📚 Historical game review
+ 
  🤖 Move-by-move AI analysis
+ 
  💳 Subscription plans
+
  🏆 Multiplayer tournaments
+ 
  🔁 Match replay system
+ 
  🏁 End game button
+ 
  ⏱️ Chess clock support
 
  
