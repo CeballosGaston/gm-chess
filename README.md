@@ -201,11 +201,12 @@ Schema management is handled through the Supabase Dashboard.
 
 <br />
 
+
 <!-- HERO IMAGE -->
 <p align="center">
   <img 
-    src="https://github.com/user-attachments/assets/359576d3-ed76-4b35-b483-4c772e99343f" />
-        width="27%"
+    src="https://github.com/user-attachments/assets/359576d3-ed76-4b35-b483-4c772e99343f"
+    width="70%"
   />
 </p>
 
@@ -214,13 +215,13 @@ Schema management is handled through the Supabase Dashboard.
 <!-- TWO COLUMN GRID -->
 <p align="center">
   <img 
-    src="https://github.com/user-attachments/assets/96e3988e-58ad-4059-a6e4-aed3c719d125" />
-       width="27%"
+    src="https://github.com/user-attachments/assets/96e3988e-58ad-4059-a6e4-aed3c719d125"
+    width="45%"
   />
 
   <img 
-   src="https://github.com/user-attachments/assets/b31e63b4-d387-4430-853e-a396fc50d38a" />
-       width="27%"
+    src="https://github.com/user-attachments/assets/b31e63b4-d387-4430-853e-a396fc50d38a"
+    width="45%"
   />
 </p>
 
@@ -228,18 +229,15 @@ Schema management is handled through the Supabase Dashboard.
 
 <p align="center">
   <img 
-    src="https://github.com/user-attachments/assets/be4f9203-466c-405e-8be4-1edcf186f71c" />
-       width="27%"
+    src="https://github.com/user-attachments/assets/be4f9203-466c-405e-8be4-1edcf186f71c"
+    width="45%"
   />
 
   <img 
-    src="https://github.com/user-attachments/assets/d9ce8ed0-f78c-41ba-8c61-ee03961a4895" />
-       width="27%"
+    src="https://github.com/user-attachments/assets/d9ce8ed0-f78c-41ba-8c61-ee03961a4895"
+    width="45%"
   />
 </p>
-
-<br />
-
 
 
 🧪 Testing Coverage
