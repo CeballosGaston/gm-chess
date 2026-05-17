@@ -248,7 +248,7 @@ Schema management is handled through the Supabase Dashboard.
 <p align="center">
   <img 
     src="https://github.com/user-attachments/assets/2b8dd900-4948-41fe-b970-527f5b8bc79a"
-    width="70%"
+    width="30%"
   />
 </p>
 
@@ -259,35 +259,35 @@ Schema management is handled through the Supabase Dashboard.
 <p align="center">
   <img 
     src="https://github.com/user-attachments/assets/3e1188d1-612a-4a7a-9a61-a4f1c21eac9c"
-    width="70%"
+    width="30%"
   />
 </p>
 
 <p align="center">
   <img 
     src="https://github.com/user-attachments/assets/a89f6b1d-21bc-4d82-91ee-383ffb132c17"
-    width="70%"
+    width="30%"
   />
 </p>
 
 <p align="center">
   <img 
     src="https://github.com/user-attachments/assets/46b8f162-d5cb-47df-a582-84ee3190c509"
-    width="70%"
+    width="30%"
   />
 </p>
 
 <p align="center">
   <img 
    src="https://github.com/user-attachments/assets/7c056909-6b0a-4f50-b5c4-5fa9bff817d7"
-    width="70%"
+    width="30%"
   />
 </p>
 
 <p align="center">
   <img 
    src="https://github.com/user-attachments/assets/c6bf6b8b-73ff-4551-b7e2-9ae8f135bdb3"
-    width="70%"
+    width="30%"
   />
 </p>
 
