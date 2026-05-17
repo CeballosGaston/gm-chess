@@ -205,8 +205,7 @@ Schema management is handled through the Supabase Dashboard.
 <p align="center">
   <img 
     src="https://github.com/user-attachments/assets/359576d3-ed76-4b35-b483-4c772e99343f" />
-    alt="GM Chess Hero"
-    width="1000"
+        width="27%"
   />
 </p>
 
@@ -216,14 +215,12 @@ Schema management is handled through the Supabase Dashboard.
 <p align="center">
   <img 
     src="https://github.com/user-attachments/assets/96e3988e-58ad-4059-a6e4-aed3c719d125" />
-    alt="Marketplace"
-    width="47%"
+       width="27%"
   />
 
   <img 
    src="https://github.com/user-attachments/assets/b31e63b4-d387-4430-853e-a396fc50d38a" />
-    alt="Live Game"
-    width="47%"
+       width="27%"
   />
 </p>
 
@@ -232,30 +229,16 @@ Schema management is handled through the Supabase Dashboard.
 <p align="center">
   <img 
     src="https://github.com/user-attachments/assets/be4f9203-466c-405e-8be4-1edcf186f71c" />
-    alt="GM Dashboard"
-    width="47%"
+       width="27%"
   />
 
   <img 
     src="https://github.com/user-attachments/assets/d9ce8ed0-f78c-41ba-8c61-ee03961a4895" />
-    alt="AI Analysis"
-    width="47%"
+       width="27%"
   />
 </p>
 
 <br />
-
-
-
-<img width="1857" height="764" alt="Captura de pantalla 2026-05-16 110653" src="https://github.com/user-attachments/assets/359576d3-ed76-4b35-b483-4c772e99343f" />
-<img width="1876" height="599" alt="Captura de pantalla 2026-05-16 110702" src="https://github.com/user-attachments/assets/96e3988e-58ad-4059-a6e4-aed3c719d125" />
-<img width="1881" height="744" alt="Captura de pantalla 2026-05-16 110713" src="https://github.com/user-attachments/assets/b31e63b4-d387-4430-853e-a396fc50d38a" />
-<img width="1634" height="777" alt="Captura de pantalla 2026-05-16 110810" src="https://github.com/user-attachments/assets/be4f9203-466c-405e-8be4-1edcf186f71c" />
-<img width="1890" height="848" alt="Captura de pantalla 2026-05-16 110833" src="https://github.com/user-attachments/assets/d9ce8ed0-f78c-41ba-8c61-ee03961a4895" />
-
-
-
-
 
 
 
