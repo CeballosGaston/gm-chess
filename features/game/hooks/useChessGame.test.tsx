@@ -34,22 +34,47 @@ vi.mock("@/features/auth/hooks/useUser", () => ({
 }));
 
 describe("Feature: Chess Game Logic", () => {
-  const createMockChain = () => {
+  /**
+   * SELECT chain:
+   * supabase
+   *   .from()
+   *   .select()
+   *   .eq()
+   *   .single()
+   */
+  const createSelectChain = () => {
     const chain = {
       select: vi.fn(),
-      update: vi.fn(),
       eq: vi.fn(),
       single: vi.fn(),
     };
 
     chain.select.mockReturnValue(chain);
-    chain.update.mockReturnValue(chain);
     chain.eq.mockReturnValue(chain);
 
     return chain;
   };
 
-  let mockChain: ReturnType<typeof createMockChain>;
+  /**
+   * UPDATE chain:
+   * supabase
+   *   .from()
+   *   .update()
+   *   .eq()
+   */
+  const createUpdateChain = () => {
+    const chain = {
+      update: vi.fn(),
+      eq: vi.fn(),
+    };
+
+    chain.update.mockReturnValue(chain);
+
+    return chain;
+  };
+
+  let selectChain: ReturnType<typeof createSelectChain>;
+  let updateChain: ReturnType<typeof createUpdateChain>;
 
   const createWrapper = () => {
     const queryClient = new QueryClient();
@@ -70,9 +95,18 @@ describe("Feature: Chess Game Logic", () => {
   beforeEach(() => {
     vi.clearAllMocks();
 
-    mockChain = createMockChain();
+    selectChain = createSelectChain();
+    updateChain = createUpdateChain();
 
-    (supabase.from as Mock).mockReturnValue(mockChain);
+    /**
+     * IMPORTANT:
+     * We return different chains depending on whether
+     * the code is performing SELECT or UPDATE operations.
+     */
+    (supabase.from as Mock).mockImplementation(() => ({
+      select: selectChain.select,
+      update: updateChain.update,
+    }));
 
     (supabase.channel as Mock).mockReturnValue({
       on: vi.fn().mockReturnThis(),
@@ -86,7 +120,7 @@ describe("Feature: Chess Game Logic", () => {
       turn: "b",
     };
 
-    mockChain.single.mockResolvedValue({
+    selectChain.single.mockResolvedValue({
       data: mockData,
       error: null,
     } as PostgrestSingleResponse<{
@@ -109,13 +143,20 @@ describe("Feature: Chess Game Logic", () => {
       expect(result.current.fen).toBe(mockData.fen);
       expect(result.current.turn).toBe("b");
     });
+
+    expect(selectChain.select).toHaveBeenCalled();
+    expect(selectChain.eq).toHaveBeenCalledWith(
+      "id",
+      "game-123",
+    );
+    expect(selectChain.single).toHaveBeenCalled();
   });
 
   it("Scenario: Making a valid move", async () => {
     const initialFen =
       "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
 
-    mockChain.single.mockResolvedValueOnce({
+    selectChain.single.mockResolvedValueOnce({
       data: {
         fen: initialFen,
         turn: "w",
@@ -123,7 +164,7 @@ describe("Feature: Chess Game Logic", () => {
       error: null,
     });
 
-    mockChain.eq.mockResolvedValue({
+    updateChain.eq.mockResolvedValue({
       data: null,
       error: null,
     });
@@ -153,13 +194,13 @@ describe("Feature: Chess Game Logic", () => {
 
     expect(result.current.turn).toBe("b");
 
-    expect(mockChain.update).toHaveBeenCalledWith(
+    expect(updateChain.update).toHaveBeenCalledWith(
       expect.objectContaining({
         turn: "b",
       }),
     );
 
-    expect(mockChain.eq).toHaveBeenCalledWith(
+    expect(updateChain.eq).toHaveBeenCalledWith(
       "id",
       "game-123",
     );
