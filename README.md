@@ -1,15 +1,14 @@
-
-GM Chess ♟️
+# GM Chess ♟️
 
 A real-time chess coaching marketplace connecting students with Grandmasters for live games, AI-powered analysis, and personalized feedback.
 
 
-✨ Overview
+## ✨ Overview
 
 GM Chess combines competitive chess, live coaching, and AI assistance into a single modern platform.
 
 
-Students can:
+## Students can:
 
 🎓 Find verified Grandmasters
 
@@ -19,7 +18,7 @@ Students can:
 
 💬 Get real-time coaching feedback
 
-Grandmasters can:
+## Grandmasters can:
 
 🏆 Monetize coaching sessions
 
@@ -29,7 +28,8 @@ Grandmasters can:
 
 🧠 Review and guide players live
 
-🏗️ Architecture
+
+## 🏗️ Architecture
 
 Built using modern full-stack technologies with scalability and real-time performance in mind.
 
@@ -42,7 +42,7 @@ types/                # TypeScript interfaces
 
 
 
-Browse verified Grandmasters sorted by ELO rating with real-time availability status.
+## Browse verified Grandmasters sorted by ELO rating with real-time availability status.
 
 ✅ Live availability
 
@@ -55,7 +55,7 @@ Browse verified Grandmasters sorted by ELO rating with real-time availability st
 ♟️ Live Chess
 
 
-Interactive real-time chess powered by chess.js and react-chessboard.
+## Interactive real-time chess powered by chess.js and react-chessboard.
 
 ♜ Legal move validation
 
@@ -68,7 +68,7 @@ Interactive real-time chess powered by chess.js and react-chessboard.
 🤖 AI Coaching
 
 
-Stockfish-powered analysis integrated directly into gameplay.
+## Stockfish-powered analysis integrated directly into gameplay.
 
 💡 Best move suggestions
 
@@ -80,16 +80,17 @@ Stockfish-powered analysis integrated directly into gameplay.
 
 💰 Virtual Economy
 
-A complete coin-based reward system.
 
 
-Students
+## Students
 
 🪙 Purchase coins
 
 🎮 Spend coins per game
 
-Grandmasters
+
+## Grandmasters
+
 💵 Earn coins from coaching sessions
 
 📊 Track completed games
@@ -97,7 +98,7 @@ Grandmasters
 💬 Real-Time Messaging
 
 
-Instant coaching communication using Supabase Realtime.
+## Instant coaching communication using Supabase Realtime.
 
 ⚡ Live feedback
 
@@ -107,7 +108,8 @@ Instant coaching communication using Supabase Realtime.
 
 🧑‍🏫 GM Dashboard
 
-Dedicated dashboard for Grandmasters.
+
+## Dedicated dashboard for Grandmasters.
 
 🟢 Toggle availability
 
@@ -117,7 +119,8 @@ Dedicated dashboard for Grandmasters.
 
 🔐 Authentication
 
-Secure authentication with Google OAuth.
+
+## Secure authentication with Google OAuth.
 
 🔑 Supabase Auth
 
@@ -129,13 +132,14 @@ Secure authentication with Google OAuth.
 
 
 
-Modern dark UI with amber accents.
+## Modern dark UI with amber accents.
 
 🌑 Full dark mode
 
 ✨ Smooth UI styling
 
-♿ Accessibility-focused design
+
+## ♿ Accessibility-focused design
 
 🛠️ Tech Stack
 
@@ -151,13 +155,13 @@ Tailwind CSS v4 + shadcn/ui	Styling & UI components
 Vitest + RTL	Testing
 
 
-⚡ Getting Started
-📦 Install dependencies
+## ⚡ Getting Started
 
+📦 Install dependencies
 npm install
 
 
-🔑 Configure environment variables
+## 🔑 Configure environment variables
 
 Create a .env.local file:
 
@@ -165,17 +169,17 @@ NEXT_PUBLIC_SUPABASE_URL=https://nihtoyrxxumirjfyewpb.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5paHRveXJ4eHVtaXJqZnlld3BiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc5NjA0MDUsImV4cCI6MjA5MzUzNjQwNX0.wpAy-YEXjAE1jdsfCW-vVYtRZinMB0S74OofCNN9JxY
 
 
-▶️ Start development server
+## ▶️ Start development server
 npm run dev
 
-🧪 Run tests
+## 🧪 Run tests
 npm run test
 
-📊 Run tests with coverage
+## 📊 Run tests with coverage
 npm run test:coverage
 
 
-🧪 Testing Philosophy
+## 🧪 Testing Philosophy
 Unit tests focus on core business logic.
 ✅ Pure logic testing
 ❌ No UI testing (by design)
@@ -183,7 +187,7 @@ Unit tests focus on core business logic.
 
 
 
-Core tables:
+## Core tables:
 
 Table	Description
 profiles	Users, roles, ELO, coins, availability
@@ -191,11 +195,11 @@ games	Chess matches, FEN state, turns, status
 messages	Real-time coaching feedback
 
 
-Schema management is handled through the Supabase Dashboard.
+## Schema management is handled through the Supabase Dashboard.
 
-📸 Screenshots
+## 📸 Screenshots
 
-🏪 App
+## 🏪 App
 
 <h2 align="center">📸 Screenshots</h2>
 
@@ -240,10 +244,10 @@ Schema management is handled through the Supabase Dashboard.
 </p>
 
 
-🧪 Testing Coverage
+## 🧪 Testing Coverage
 <img width="1918" height="693" alt="Testing Coverage" src="https://github.com/user-attachments/assets/4afc2fd5-0626-4508-870c-7a3684aa1f28" />
 
-♿ Accessibility Score
+## ♿ Accessibility Score
 
 <p align="center">
   <img 
@@ -254,7 +258,7 @@ Schema management is handled through the Supabase Dashboard.
 
 
 
-🔄 User Flows
+## 🔄 User Flows
 
 <p align="center">
   <img 
@@ -293,7 +297,7 @@ Schema management is handled through the Supabase Dashboard.
 
 
 
-🗺️ Roadmap
+## 🗺️ Roadmap
 
  📹 In-app video calls for live coaching
  
@@ -312,8 +316,8 @@ Schema management is handled through the Supabase Dashboard.
  ⏱️ Chess clock support
 
  
-🌟 Vision
+## 🌟 Vision
 
 GM Chess aims to make high-level chess coaching accessible, interactive, and engaging through real-time gameplay and AI-enhanced learning.
 
-🧠 Built With Passion For Chess & Learning ♟️
+## 🧠 Built With Passion For Chess & Learning ♟️
