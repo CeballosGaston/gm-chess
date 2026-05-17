@@ -12,16 +12,23 @@ GM Chess combines competitive chess, live coaching, and AI assistance into a sin
 Students can:
 
 🎓 Find verified Grandmasters
+
 ♟️ Play live chess matches
+
 🤖 Receive AI-powered move analysis
+
 💬 Get real-time coaching feedback
 
 Grandmasters can:
 
 🏆 Monetize coaching sessions
+
 📈 Manage availability
+
 💰 Earn virtual coins
+
 🧠 Review and guide players live
+
 🏗️ Architecture
 
 Built using modern full-stack technologies with scalability and real-time performance in mind.
@@ -38,27 +45,39 @@ types/                # TypeScript interfaces
 Browse verified Grandmasters sorted by ELO rating with real-time availability status.
 
 ✅ Live availability
+
 🧠 Verified GM profiles
+
 📊 ELO-based ranking
+
 ⚡ Instant session joining
+
 ♟️ Live Chess
 
 
 Interactive real-time chess powered by chess.js and react-chessboard.
 
 ♜ Legal move validation
+
 🔄 Real-time move synchronization
+
 🎯 Interactive board UI
+
 🧩 FEN state management
+
 🤖 AI Coaching
 
 
 Stockfish-powered analysis integrated directly into gameplay.
 
 💡 Best move suggestions
+
 📈 Position evaluation
+
 🎯 Depth 12 analysis
+
 ✨ Visual coaching overlays
+
 💰 Virtual Economy
 
 A complete coin-based reward system.
@@ -67,40 +86,57 @@ A complete coin-based reward system.
 Students
 
 🪙 Purchase coins
+
 🎮 Spend coins per game
+
 Grandmasters
 💵 Earn coins from coaching sessions
+
 📊 Track completed games
+
 💬 Real-Time Messaging
 
 
 Instant coaching communication using Supabase Realtime.
 
 ⚡ Live feedback
+
 🧠 Coaching annotations
+
 💭 Session messaging
+
 🧑‍🏫 GM Dashboard
 
 Dedicated dashboard for Grandmasters.
 
 🟢 Toggle availability
+
 ⏳ View waiting sessions
+
 🎮 Join active games instantly
+
 🔐 Authentication
 
 Secure authentication with Google OAuth.
 
 🔑 Supabase Auth
+
 🌐 OAuth login
+
 🍪 SSR session handling
+
 🌙 Dark Theme
+
 
 
 Modern dark UI with amber accents.
 
 🌑 Full dark mode
+
 ✨ Smooth UI styling
+
 ♿ Accessibility-focused design
+
 🛠️ Tech Stack
 
 Tool	Purpose
@@ -160,6 +196,63 @@ Schema management is handled through the Supabase Dashboard.
 📸 Screenshots
 
 🏪 App
+
+<h2 align="center">📸 Screenshots</h2>
+
+<br />
+
+<!-- HERO IMAGE -->
+<p align="center">
+  <img 
+    src="https://github.com/user-attachments/assets/359576d3-ed76-4b35-b483-4c772e99343f" />
+    alt="GM Chess Hero"
+    width="1000"
+  />
+</p>
+
+<br />
+
+<!-- TWO COLUMN GRID -->
+<p align="center">
+  <img 
+    src="./public/screenshots/marketplace.png" 
+    alt="Marketplace"
+    width="47%"
+  />
+
+  <img 
+    src="./public/screenshots/game.png" 
+    alt="Live Game"
+    width="47%"
+  />
+</p>
+
+<br />
+
+<p align="center">
+  <img 
+    src="./public/screenshots/dashboard.png" 
+    alt="GM Dashboard"
+    width="47%"
+  />
+
+  <img 
+    src="./public/screenshots/analysis.png" 
+    alt="AI Analysis"
+    width="47%"
+  />
+</p>
+
+<br />
+
+<!-- MOBILE IMAGE -->
+<p align="center">
+  <img 
+    src="./public/screenshots/mobile.png" 
+    alt="Mobile View"
+    width="300"
+  />
+</p>
 
 <img width="1857" height="764" alt="Captura de pantalla 2026-05-16 110653" src="https://github.com/user-attachments/assets/359576d3-ed76-4b35-b483-4c772e99343f" />
 <img width="1876" height="599" alt="Captura de pantalla 2026-05-16 110702" src="https://github.com/user-attachments/assets/96e3988e-58ad-4059-a6e4-aed3c719d125" />
