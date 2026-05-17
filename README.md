@@ -244,19 +244,52 @@ Schema management is handled through the Supabase Dashboard.
 <img width="1918" height="693" alt="Testing Coverage" src="https://github.com/user-attachments/assets/4afc2fd5-0626-4508-870c-7a3684aa1f28" />
 
 ♿ Accessibility Score
-<img width="492" height="768" alt="Accessibility Score" src="https://github.com/user-attachments/assets/2b8dd900-4948-41fe-b970-527f5b8bc79a" />
+
+<p align="center">
+  <img 
+    src="https://github.com/user-attachments/assets/2b8dd900-4948-41fe-b970-527f5b8bc79a"
+    width="70%"
+  />
+</p>
+
+
 
 🔄 User Flows
-<img width="7432" height="2665" alt="Land Marketplace User Flow-2026-05-16-085202" src="https://github.com/user-attachments/assets/3e1188d1-612a-4a7a-9a61-a4f1c21eac9c" />
-<img width="3241" height="7141" alt="Land Marketplace User Flow-2026-05-16-085912" src="https://github.com/user-attachments/assets/a89f6b1d-21bc-4d82-91ee-383ffb132c17" />
-<img width="3946" height="5260" alt="Land Marketplace User Flow-2026-05-16-085957" src="https://github.com/user-attachments/assets/46b8f162-d5cb-47df-a582-84ee3190c509" />
-<img width="4362" height="3707" alt="Land Marketplace User Flow-2026-05-16-090010" src="https://github.com/user-attachments/assets/7c056909-6b0a-4f50-b5c4-5fa9bff817d7" />
-<img width="8192" height="3061" alt="Land Marketplace User Flow-2026-05-16-090049" src="https://github.com/user-attachments/assets/c6bf6b8b-73ff-4551-b7e2-9ae8f135bdb3" />
 
+<p align="center">
+  <img 
+    src="https://github.com/user-attachments/assets/3e1188d1-612a-4a7a-9a61-a4f1c21eac9c"
+    width="70%"
+  />
+</p>
 
+<p align="center">
+  <img 
+    src="https://github.com/user-attachments/assets/a89f6b1d-21bc-4d82-91ee-383ffb132c17"
+    width="70%"
+  />
+</p>
 
+<p align="center">
+  <img 
+    src="https://github.com/user-attachments/assets/46b8f162-d5cb-47df-a582-84ee3190c509"
+    width="70%"
+  />
+</p>
 
+<p align="center">
+  <img 
+   src="https://github.com/user-attachments/assets/7c056909-6b0a-4f50-b5c4-5fa9bff817d7"
+    width="70%"
+  />
+</p>
 
+<p align="center">
+  <img 
+   src="https://github.com/user-attachments/assets/c6bf6b8b-73ff-4551-b7e2-9ae8f135bdb3"
+    width="70%"
+  />
+</p>
 
 
 
