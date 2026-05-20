@@ -160,13 +160,14 @@ Vitest + RTL	Testing
 📦 Install dependencies
 npm install
 
-
 ## 🔑 Configure environment variables
 
-Create a .env.local file:
+Create a `.env.local` file:
 
-NEXT_PUBLIC_SUPABASE_URL=https://nihtoyrxxumirjfyewpb.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5paHRveXJ4eHVtaXJqZnlld3BiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc5NjA0MDUsImV4cCI6MjA5MzUzNjQwNX0.wpAy-YEXjAE1jdsfCW-vVYtRZinMB0S74OofCNN9JxY
+```env
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+```
 
 
 ## ▶️ Start development server
@@ -220,12 +221,12 @@ messages	Real-time coaching feedback
 <p align="center">
   <img 
     src="https://github.com/user-attachments/assets/96e3988e-58ad-4059-a6e4-aed3c719d125"
-    width="45%"
+    width="70%"
   />
 
   <img 
     src="https://github.com/user-attachments/assets/b31e63b4-d387-4430-853e-a396fc50d38a"
-    width="45%"
+    width="70%"
   />
 </p>
 
@@ -234,12 +235,12 @@ messages	Real-time coaching feedback
 <p align="center">
   <img 
     src="https://github.com/user-attachments/assets/be4f9203-466c-405e-8be4-1edcf186f71c"
-    width="45%"
+    width="70%"
   />
 
   <img 
     src="https://github.com/user-attachments/assets/d9ce8ed0-f78c-41ba-8c61-ee03961a4895"
-    width="45%"
+    width="70%"
   />
 </p>
 
